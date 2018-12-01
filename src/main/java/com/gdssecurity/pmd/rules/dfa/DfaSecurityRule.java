@@ -118,6 +118,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			"TODO", new String[] {  }, 1.0f, '|');
 	
 	private final PropertyDescriptor<String> maxDataFlowsDescriptor = new StringProperty("max-dataflows", "TODO", "30", 1.0f);
+	
+	private final PropertyDescriptor<String> maxLoopsDescriptor = new StringProperty("max-loops", "TODO", "500", 1.0f);
 
 	private RuleContext rc;
 	private int methodDataFlowCount;
@@ -125,6 +127,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private List<DataFlowNode> additionalDataFlowNodes = new ArrayList<DataFlowNode>();
 
 	private int MAX_DATAFLOWS = 30;
+	private int MAX_LOOPS = 500;
 	private boolean generator = false;
 	private boolean initialized = false;
 
@@ -136,6 +139,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		definePropertyDescriptor(this.generatorAnnotationsDescriptor);
 		definePropertyDescriptor(this.annotationsPackagesDescriptor);
 		definePropertyDescriptor(this.maxDataFlowsDescriptor);
+		definePropertyDescriptor(this.maxLoopsDescriptor);
 	}
 
 	@Override
@@ -158,6 +162,12 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		}
 		catch (Exception e) {
 			this.MAX_DATAFLOWS = 30;
+		}
+		try {
+			this.MAX_LOOPS = Integer.parseInt(getProperty(this.maxLoopsDescriptor));
+		}
+		catch (Exception e) {
+			this.MAX_LOOPS = 500;
 		}
 	}
 
@@ -197,7 +207,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 			if (!this.additionalDataFlowNodes.isEmpty()) {
 				DataFlowNode additionalRootNode = this.additionalDataFlowNodes.remove(0);
+				// TODO Change constructor when PMD 6.10.0 is released
 				DAAPathFinder daaPathFinder = new DAAPathFinder(additionalRootNode, this, MAX_DATAFLOWS);
+//				DAAPathFinder daaPathFinder = new DAAPathFinder(additionalRootNode, this, MAX_DATAFLOWS, MAX_LOOPS);
 				this.methodDataFlowCount = 0;
 				daaPathFinder.run();
 			}
