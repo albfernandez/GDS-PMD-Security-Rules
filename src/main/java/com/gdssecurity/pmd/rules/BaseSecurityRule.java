@@ -137,6 +137,9 @@ public class BaseSecurityRule extends AbstractJavaRule {
     	if (type == null) {
     		return false;
     	}
+    	if (type.isArray()) {
+    		return isSafeType(type.getComponentType().getCanonicalName());
+    	}
     	return isSafeType(type.getCanonicalName());
     }
     protected boolean isSafeType(String type) {
