@@ -127,7 +127,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private List<DataFlowNode> additionalDataFlowNodes = new ArrayList<DataFlowNode>();
 
 	private int MAX_DATAFLOWS = 30;
-	private int MAX_LOOPS = 500;
+//	private int MAX_LOOPS = 500;
 	private boolean generator = false;
 	private boolean initialized = false;
 
@@ -163,12 +163,12 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		catch (Exception e) {
 			this.MAX_DATAFLOWS = 30;
 		}
-		try {
-			this.MAX_LOOPS = Integer.parseInt(getProperty(this.maxLoopsDescriptor));
-		}
-		catch (Exception e) {
-			this.MAX_LOOPS = 500;
-		}
+//		try {
+//			this.MAX_LOOPS = Integer.parseInt(getProperty(this.maxLoopsDescriptor));
+//		}
+//		catch (Exception e) {
+//			this.MAX_LOOPS = 500;
+//		}
 	}
 
 	@Override
