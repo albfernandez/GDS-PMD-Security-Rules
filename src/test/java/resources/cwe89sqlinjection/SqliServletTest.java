@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 
 public class SqliServletTest extends HttpServlet {
 
@@ -70,7 +69,9 @@ public class SqliServletTest extends HttpServlet {
 				}
 			} catch (SQLException ignored) {
 			}
-			IOUtils.closeQuietly(out);
+			if (out != null) {
+			    out.close();
+			}
 		}
 	}
 
@@ -122,7 +123,9 @@ public class SqliServletTest extends HttpServlet {
 				}
 			} catch (SQLException ignored) {
 			}
-			IOUtils.closeQuietly(out);
+			if (out != null) {
+			    out.close();
+			}
 		}
 	}
 
@@ -172,7 +175,9 @@ public class SqliServletTest extends HttpServlet {
 				}
 			} catch (SQLException ignored) {
 			}
-			IOUtils.closeQuietly(out);
+			if (out != null) {
+			    out.close();
+			}
 		}
 	}
 

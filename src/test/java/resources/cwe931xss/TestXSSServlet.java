@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
-
 public class TestXSSServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -30,7 +28,9 @@ public class TestXSSServlet extends HttpServlet {
 			String w1 = v1;
 			pw.print(w1);
 		} finally {
-			IOUtils.closeQuietly(pw);
+			if (pw != null) {
+			    pw.close();
+			}
 		}
 
 	}
