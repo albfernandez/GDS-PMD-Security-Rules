@@ -7,7 +7,7 @@ The ruleset contains rules intended to identify security violations that map to 
 Author: Joe Hemler - Gotham Digital Science (labs@gdssecurity.com)
 Author: Alberto Fernández (infjaf@gmail.com)
  
-Below are instructions for running PMD 5.8.0 with the GDS Secure Coding Ruleset.
+Below are instructions for running PMD 6.20.0 with the GDS Secure Coding Ruleset.
 
 
 # Basic Usage Steps
