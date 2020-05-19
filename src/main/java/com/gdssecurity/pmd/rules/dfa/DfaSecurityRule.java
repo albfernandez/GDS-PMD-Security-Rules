@@ -93,6 +93,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private Set<String> fieldTypesTainted = new HashSet<String>();
 
 	private Map<String, Class<?>> fieldTypes;
+        private Map<String, Class<?>> fieldTypesAll = new HashMap<>();
 	private Map<String, Class<?>> functionParameterTypes;
 	private Set<String> sinks;
 	private Set<String> sanitizers;
@@ -963,27 +964,31 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 
 		if (type != null) {
-			Field field = null;
+			
 			List<Class<?>> inheritanceList = getInheritance(type);
 
 			for (Class<?> clazz : inheritanceList) {
-				try {
-					field = FieldUtils.getDeclaredField(clazz, attributeName, true);
-					if (field != null) {
-						break;
-					}
-				} catch (SecurityException | NoClassDefFoundError e) {
-					field = null;
-				}
+                                Class<?> t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
+                                if (t1 != null) {
+                                    return t1;
+                                }
+                                List<Field> fields = FieldUtils.getAllFieldsList(clazz);
+                                for (Field field: fields) {
+                                    this.fieldTypesAll.put(clazz.getCanonicalName() + "." + field.getName(), field.getType());
+                                }
+                                t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
+                                if (t1 != null) {
+                                    return t1;
+                                } 				
 			}
-			if (field != null) {
-				type = field.getType();
-			}
+			
 		}
 
 
 		return type;
 	}
+        
+
 
 	private List<Class<?>> getInheritance(Class<?> declaringClass) {
 		List<Class<?>> list = new ArrayList<Class<?>>();
