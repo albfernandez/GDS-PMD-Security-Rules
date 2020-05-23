@@ -24,24 +24,19 @@ package com.gdssecurity.pmd;
 
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import com.gdssecurity.pmd.smap.SmapFileReader;
+import com.gdssecurity.pmd.smap.SmapResolver;
 
 import net.sourceforge.pmd.Rule;
 import net.sourceforge.pmd.RuleContext;
 import net.sourceforge.pmd.RuleViolation;
 import net.sourceforge.pmd.lang.ast.Node;
-import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceBodyDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
-import net.sourceforge.pmd.lang.java.ast.ASTFormalParameter;
-import net.sourceforge.pmd.lang.java.ast.ASTLocalVariableDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
-import net.sourceforge.pmd.lang.java.ast.ASTTypeDeclaration;
-
-import com.gdssecurity.pmd.smap.SmapFileReader;
-import com.gdssecurity.pmd.smap.SmapResolver;
 
 
 public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleViolation {
@@ -155,36 +150,7 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
                 this.description = specificMsg;
             }
 	
-            List<Node> parentTypes = new ArrayList<Node>(
-                    node.getParentsOfType(ASTTypeDeclaration.class));
-
-            if (node.getClass() ==  ASTTypeDeclaration.class) {
-                parentTypes.add(node);
-            }
-            parentTypes.addAll(
-                    node.getParentsOfType(
-                            ASTClassOrInterfaceBodyDeclaration.class));
-            if (node.getClass() == ASTClassOrInterfaceBodyDeclaration.class) {
-                parentTypes.add(node);
-            }
-            parentTypes.addAll(node.getParentsOfType(ASTFormalParameter.class));
-            if (node.getClass() == ASTFormalParameter.class) {
-                parentTypes.add(node);
-            }
-            parentTypes.addAll(
-                    node.getParentsOfType(ASTLocalVariableDeclaration.class));
-            if (node.getClass() ==  ASTLocalVariableDeclaration.class) {
-                parentTypes.add(node);
-            }
-            if (node.getClass() == ASTCompilationUnit.class) {
-                for (int i = 0; i < node.getNumChildren(); i++) {
-                    Node n = node.getChild(i);
-
-                    if (n != null && n.getClass() == ASTTypeDeclaration.class) {
-                        parentTypes.add(n);
-                    }
-                }
-            }
+            
         } else {
             this.className = "";
             this.methodName = "";
