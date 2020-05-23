@@ -39,7 +39,6 @@ import net.sourceforge.pmd.lang.java.ast.ASTFormalParameter;
 import net.sourceforge.pmd.lang.java.ast.ASTLocalVariableDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTTypeDeclaration;
-import net.sourceforge.pmd.lang.java.ast.CanSuppressWarnings;
 
 import com.gdssecurity.pmd.smap.SmapFileReader;
 import com.gdssecurity.pmd.smap.SmapResolver;
@@ -61,7 +60,7 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
 
     private int beginColumn;
     private int endColumn;
-    private boolean isSuppressed;
+    private boolean isSuppressed = false;
 	
     private String javaFileName; 
     private int javaBeginLine; 
@@ -184,13 +183,6 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
                     if (n != null && n.getClass() == ASTTypeDeclaration.class) {
                         parentTypes.add(n);
                     }
-                }
-            }
-            for (Node parentType : parentTypes) {
-                CanSuppressWarnings t = (CanSuppressWarnings) parentType;
-
-                if (t.hasSuppressWarningsAnnotationFor(getRule())) {
-                    this.isSuppressed = true;
                 }
             }
         } else {
