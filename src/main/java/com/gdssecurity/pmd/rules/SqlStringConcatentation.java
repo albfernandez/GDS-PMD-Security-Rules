@@ -36,22 +36,22 @@ import net.sourceforge.pmd.lang.java.rule.regex.RegexHelper;
 import net.sourceforge.pmd.lang.java.symboltable.JavaNameOccurrence;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
-import net.sourceforge.pmd.properties.StringProperty;
+import net.sourceforge.pmd.properties.PropertyFactory;
 
 
 public class SqlStringConcatentation extends BaseSecurityRule {
 
-    private static final PropertyDescriptor<String> standardSqlRegexDescriptor = new StringProperty(
-            "standardsqlregex",
-            "regular expression for detecting standard SQL statements",
-            "undefined", 1.0F);
-    private static final PropertyDescriptor<String> customSqlRegexDescriptor = new StringProperty(
-            "customsqlregex",
-            "regular expression for detecting custom SQL, such as stored procedures and functions",
-            "undefined", 1.0F);
-
-
-    
+    private static final PropertyDescriptor<String> standardSqlRegexDescriptor =
+    		PropertyFactory.stringProperty("standardsqlregex")
+    		.desc("regular expression for detecting standard SQL statements")
+    		.build();
+    		
+    		
+    private static final PropertyDescriptor<String> customSqlRegexDescriptor =
+    		PropertyFactory.stringProperty("customsqlregex")
+    		.desc("regular expression for detecting custom SQL, such as stored procedures and functions")
+    		.build();
+    		    
     private static Pattern standardSqlRegex = null;
     private static Pattern customSqlRegex = null;
 

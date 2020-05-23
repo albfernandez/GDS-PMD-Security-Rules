@@ -43,7 +43,8 @@ import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.java.ast.ASTType;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
-import net.sourceforge.pmd.properties.StringMultiProperty;
+import net.sourceforge.pmd.properties.PropertyFactory;
+
 
 
 public class BaseSecurityRule extends AbstractJavaRule {
@@ -52,48 +53,46 @@ public class BaseSecurityRule extends AbstractJavaRule {
     protected Set<String> unsafeTypes = null;
     protected Set<String> safeTypes = null;
 	
-//    StringMultiPBuilder a;
-    private final PropertyDescriptor<List<String>> sourceDescriptor = new StringMultiProperty(
-            "sources", "TODO",
-            new String[] {
-            "javax.servlet.http.HttpServletRequest.getParameter" }, 1.0f, '|');
+    private final PropertyDescriptor<List<String>> sourceDescriptor = 
+    		PropertyFactory.stringListProperty("sources")
+    		.delim('|')
+    		.desc("sources of posibble dangerous data")
+    		.defaultValues("javax.servlet.http.HttpServletRequest.getParameter")
+    		.build();
     
-    private final PropertyDescriptor<List<String>> unsafeTypesDescriptor = new StringMultiProperty(
-            "unsafeTypes",
-            "types that could create a potential SQLi exposure when concatenated to a SQL statement",
-            new String[] {
-            		"java.lang.String", 
-            		"java.lang.StringBuilder", 
-            		"java.lang.StringBuffer",
-            		"java.lang.AbstractStringBuilder"
-            }, 
-            1.0f,
-            '|');
-    
+   
+    private final PropertyDescriptor<List<String>> unsafeTypesDescriptor = 
+    		PropertyFactory.stringListProperty("unsafeTypes").delim('|')
+    		.defaultValues(
+    			"java.lang.String", 
+            	"java.lang.StringBuilder", 
+            	"java.lang.StringBuffer",
+            	"java.lang.AbstractStringBuilder")
+    		.desc("types that could create a potential SQLi exposure when concatenated to a SQL statement")
+    		.build(); 
 
     // Ignoring Numeric types by default
-    private final PropertyDescriptor<List<String>> safeTypesDescriptor = new StringMultiProperty(
-            "safeTypes",
-            "types that may be considered safe to ignore.",
-            new String[] { 
-            	"java.lang.Byte",
-            	"java.lang.Short",            	
-            	"java.lang.Integer", 
-            	"java.lang.Long",
-            	"java.lang.Float",
-            	"java.lang.Double",
-            	"java.lang.Boolean",
-            	"byte",
-            	"short",
-            	"int",
-            	"long",
-            	"float",
-            	"double",
-            	"boolean"
-            },
-            1.0f, 
-            '|');
-
+    private final PropertyDescriptor<List<String>> safeTypesDescriptor =
+    		PropertyFactory.stringListProperty("safeTypes").delim('|')
+    		.defaultValues(
+    				"java.lang.Byte",
+                	"java.lang.Short",            	
+                	"java.lang.Integer", 
+                	"java.lang.Long",
+                	"java.lang.Float",
+                	"java.lang.Double",
+                	"java.lang.Boolean",
+                	"byte",
+                	"short",
+                	"int",
+                	"long",
+                	"float",
+                	"double",
+                	"boolean"
+    				)
+    		.desc("types that may be considered safe to ignore.")
+    		.build();
+    
     private boolean initialized = false;
 	
 	public BaseSecurityRule() {

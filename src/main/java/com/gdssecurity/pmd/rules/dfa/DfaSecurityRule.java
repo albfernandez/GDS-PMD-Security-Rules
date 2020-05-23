@@ -79,8 +79,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableInitializer;
 import net.sourceforge.pmd.lang.symboltable.NameDeclaration;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
-import net.sourceforge.pmd.properties.StringMultiProperty;
-import net.sourceforge.pmd.properties.StringProperty;
+import net.sourceforge.pmd.properties.PropertyFactory;
 
 public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
@@ -103,24 +102,49 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 	private String[] searchAnnotationsInPackagesArray;
 
-	private final PropertyDescriptor<List<String>> sinkDescriptor = new StringMultiProperty("sinks", "TODO",
-			new String[] { "" }, 1.0f, '|');
+	private final PropertyDescriptor<List<String>> sinkDescriptor = 
+			PropertyFactory.stringListProperty("sinks").delim('|')
+			.emptyDefaultValue()
+			.desc("List of sinks for potential unsafe data")
+			.build();
+			
+	private final PropertyDescriptor<List<String>> sinkAnnotationsDescriptor = 
+			PropertyFactory.stringListProperty("sink-annotations").delim('|')
+			.emptyDefaultValue()
+			.desc("List of annotattions you can use no annotate sink methods in your code")
+			.build();
 
-	private final PropertyDescriptor<List<String>> sinkAnnotationsDescriptor = new StringMultiProperty("sink-annotations",
-			"TODO", new String[] {  }, 1.0f, '|');
+	private final PropertyDescriptor<List<String>> sanitizerDescriptor = 
+			PropertyFactory.stringListProperty("sanitizers").delim('|')
+			.emptyDefaultValue()
+			.desc("List of methods that accept unsafe data and returns safe data")
+			.build();
 
-	private final PropertyDescriptor<List<String>> sanitizerDescriptor = new StringMultiProperty("sanitizers", "TODO",
-			new String[] { "" }, 1.0f, '|');
+	private final PropertyDescriptor<List<String>> annotationsPackagesDescriptor = 
+			PropertyFactory.stringListProperty("search-annotations-in-packages").delim('|')
+			.emptyDefaultValue()
+			.desc("TODO")
+			.build();
+			
 
-	private final PropertyDescriptor<List<String>> annotationsPackagesDescriptor = new StringMultiProperty(
-			"search-annotations-in-packages", "TODO", new String[] {}, 1.0f, '|');
-
-	private final PropertyDescriptor<List<String>> generatorAnnotationsDescriptor = new StringMultiProperty("generator-annotations",
-			"TODO", new String[] {  }, 1.0f, '|');
+	private final PropertyDescriptor<List<String>> generatorAnnotationsDescriptor = 
+			PropertyFactory.stringListProperty("generator-annotations").delim('|')
+			.emptyDefaultValue()
+			.desc("TODO")
+			.build();
+			
 	
-	private final PropertyDescriptor<String> maxDataFlowsDescriptor = new StringProperty("max-dataflows", "TODO", "30", 1.0f);
+	private final PropertyDescriptor<String> maxDataFlowsDescriptor = 
+			PropertyFactory.stringProperty("max-dataflows")
+			.defaultValue("30")
+			.desc("TODO")
+    		.build();
 	
-	private final PropertyDescriptor<String> maxLoopsDescriptor = new StringProperty("max-loops", "TODO", "500", 1.0f);
+	private final PropertyDescriptor<String> maxLoopsDescriptor = 
+			PropertyFactory.stringProperty("max-loops")
+			.defaultValue("500")
+			.desc("TODO")
+    		.build();
 
 	private RuleContext rc;
 	private int methodDataFlowCount;
@@ -384,7 +408,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 				ASTVariableDeclarator declarator = field.getFirstChildOfType(ASTVariableDeclarator.class);
 				ASTVariableDeclaratorId name1 = declarator.getFirstChildOfType(ASTVariableDeclaratorId.class);
 				if (name1 != null) {
-					String name = name1.getImage();
+					String name = name1.getName();
 					this.fieldTypes.put(name, type);
 					if (!field.isFinal() && isUnsafeType(field.getType())) {
 						this.fieldTypesTainted.add("this." + name);
@@ -416,7 +440,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		for (ASTFormalParameter parameter : parameters) {
 			ASTType type = parameter.getTypeNode();
 			ASTVariableDeclaratorId name1 = parameter.getFirstChildOfType(ASTVariableDeclaratorId.class);
-			String name = name1.getImage();
+			String name = name1.getName();
 			if (name != null && type != null) {
 				this.functionParameterTypes.put(name, type.getType());
 			}
@@ -488,11 +512,11 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private void handleStringConcatenation(DataFlowNode iDataFlowNode, Node simpleNode) {
-		Node node = simpleNode.jjtGetChild(0);
-		if (node.jjtGetNumChildren() > 0) {
-			node = node.jjtGetChild(0);
-			if (node.getClass() == ASTPrimaryPrefix.class && node.jjtGetNumChildren() > 0) {
-				Node name = node.jjtGetChild(0);
+		Node node = simpleNode.getChild(0);
+		if (node.getNumChildren() > 0) {
+			node = node.getChild(0);
+			if (node.getClass() == ASTPrimaryPrefix.class && node.getNumChildren() > 0) {
+				Node name = node.getChild(0);
 				if (name.getClass() == ASTName.class) {
 					handleVariableDefinition(iDataFlowNode, name.getImage());
 				}
@@ -501,8 +525,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private boolean isStringConcatenation(Node simpleNode) {
-		if(simpleNode.jjtGetNumChildren() > 2) {
-			Node asign = simpleNode.jjtGetChild(1);
+		if(simpleNode.getNumChildren() > 2) {
+			Node asign = simpleNode.getChild(1);
 			if (asign.getClass() == ASTAssignmentOperator.class) {
 				return "+=".equals(asign.getImage());
 			}
@@ -559,9 +583,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			if (isSanitized(argListNode)) {
 				return false;
 			}
-			int numChildren = argListNode.jjtGetNumChildren();
+			int numChildren = argListNode.getNumChildren();
 			for (int i = 0; i < numChildren; i++) {
-				Node argument = argListNode.jjtGetChild(i);
+				Node argument = argListNode.getChild(i);
 				if (isTainted(argument)) {
 					return true;
 				}
@@ -572,9 +596,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 	private boolean isSanitized(ASTArgumentList argListNode) {
 		try {
-			ASTArguments arguments = (ASTArguments) argListNode.jjtGetParent();
-			ASTPrimarySuffix suffix = (ASTPrimarySuffix) arguments.jjtGetParent();
-			ASTPrimaryExpression exp = (ASTPrimaryExpression) suffix.jjtGetParent();
+			ASTArguments arguments = (ASTArguments) argListNode.getParent();
+			ASTPrimarySuffix suffix = (ASTPrimarySuffix) arguments.getParent();
+			ASTPrimaryExpression exp = (ASTPrimaryExpression) suffix.getParent();
 			String method = getMethod(exp);
 			Class<?> type = getJavaType(exp);
 			String typeName = type.getName();
@@ -600,16 +624,16 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		Node simpleNode = iDataFlowNode.getNode();
 		Class<?> clazz = String.class;
 
-		Node primaryExpression = simpleNode.jjtGetChild(0);
+		Node primaryExpression = simpleNode.getChild(0);
 		if (primaryExpression != null) {
 			if (primaryExpression.getClass() == ASTPrimaryExpression.class) {
-				Node primaryPrefix = primaryExpression.jjtGetChild(0);
+				Node primaryPrefix = primaryExpression.getChild(0);
 				if (primaryPrefix != null && primaryPrefix.getClass() == ASTPrimaryPrefix.class) {
 					clazz = ((ASTPrimaryPrefix) primaryPrefix).getType();
 				}
 			}
-			if (primaryExpression.getClass() == ASTVariableDeclaratorId.class && simpleNode.jjtGetNumChildren() > 1) {
-				Node initializer = simpleNode.jjtGetChild(1);
+			if (primaryExpression.getClass() == ASTVariableDeclaratorId.class && simpleNode.getNumChildren() > 1) {
+				Node initializer = simpleNode.getChild(1);
 				if (initializer != null && initializer.getClass() == ASTVariableInitializer.class) {
 					clazz = ((ASTVariableDeclaratorId) primaryExpression).getType();
 				}
@@ -626,19 +650,19 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		List<ASTPrimaryExpression> primaryExpressions = getExp(node2);
 		boolean tainted = false;
    		for (ASTPrimaryExpression node : primaryExpressions) {
-			if (node.jjtGetNumChildren() == 1 && node.jjtGetChild(0).jjtGetNumChildren() == 1 && node.jjtGetChild(0).jjtGetChild(0).getClass() == ASTLiteral.class){
+			if (node.getNumChildren() == 1 && node.getChild(0).getNumChildren() == 1 && node.getChild(0).getChild(0).getClass() == ASTLiteral.class){
 				continue;
 			}
-			if (node.jjtGetNumChildren() == 1 && node.jjtGetChild(0).jjtGetNumChildren() == 1 && node.jjtGetChild(0).jjtGetChild(0).getClass() == ASTExpression.class){
+			if (node.getNumChildren() == 1 && node.getChild(0).getNumChildren() == 1 && node.getChild(0).getChild(0).getClass() == ASTExpression.class){
 				boolean t1 = isTainted(node);
 				tainted = tainted || t1;
 				continue;
 			}
-			if (node.jjtGetParent().getClass() == ASTConditionalExpression.class && node.jjtGetParent().jjtGetChild(0) == node) {
+			if (node.getParent().getClass() == ASTConditionalExpression.class && node.getParent().getChild(0) == node) {
 				isTainted(node);
 				continue;
 			}
-			if (node.jjtGetParent().getClass() == ASTEqualityExpression.class) {
+			if (node.getParent().getClass() == ASTEqualityExpression.class) {
 				isTainted(node);
 				continue;
 			}
@@ -804,9 +828,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private List<ASTPrimaryExpression> getExp(Node node2) {
 
 		List<ASTPrimaryExpression> expressions = new ArrayList<ASTPrimaryExpression>();
-		int numChildren = node2.jjtGetNumChildren();
+		int numChildren = node2.getNumChildren();
 		for (int i = 0; i < numChildren; i++) {
-			Node child = node2.jjtGetChild(i);
+			Node child = node2.getChild(i);
 			if (child.getClass() == ASTPrimaryExpression.class) {
 				expressions.add((ASTPrimaryExpression) child);
 			} else {

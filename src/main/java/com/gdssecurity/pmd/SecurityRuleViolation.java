@@ -100,23 +100,23 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
 	            
                 this.className = "";
             } else {            	
-            	this.className = node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class).getImage();
+            	this.className = node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class).getSimpleName();
             }
 	        
             String qualifiedName = null;
             List<ASTClassOrInterfaceDeclaration> parents = node.getParentsOfType(
                     ASTClassOrInterfaceDeclaration.class);
 
-            for (ASTClassOrInterfaceDeclaration parent : parents) {
+            for (ASTClassOrInterfaceDeclaration parent : parents) {            	
                 if (qualifiedName == null) {
-                    qualifiedName = parent.getImage();
+                    qualifiedName = parent.getSimpleName();
                 } else {
-                    qualifiedName = parent.getImage() + "$" + qualifiedName;
+                    qualifiedName = parent.getSimpleName() + "$" + qualifiedName;
                 }
             }
             ASTMethodDeclaration method = node.getFirstParentOfType(ASTMethodDeclaration.class);
             if (method != null) {
-            	this.methodName = method.getMethodName();
+            	this.methodName = method.getName();
             }
             ASTCompilationUnit compilationUnit = node.getFirstParentOfType(ASTCompilationUnit.class);
             if (compilationUnit != null && compilationUnit.getPackageDeclaration()!= null){
@@ -177,8 +177,8 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
                 parentTypes.add(node);
             }
             if (node.getClass() == ASTCompilationUnit.class) {
-                for (int i = 0; i < node.jjtGetNumChildren(); i++) {
-                    Node n = node.jjtGetChild(i);
+                for (int i = 0; i < node.getNumChildren(); i++) {
+                    Node n = node.getChild(i);
 
                     if (n != null && n.getClass() == ASTTypeDeclaration.class) {
                         parentTypes.add(n);
