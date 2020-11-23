@@ -4,7 +4,5 @@ install: mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true
 
 jdk:
   - openjdk8
-  - openjdk9
-  - openjdk10
   - openjdk11
 
