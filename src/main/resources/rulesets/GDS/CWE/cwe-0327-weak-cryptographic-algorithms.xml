@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="A7 - Insecure Cryptographic Storage" language="java"
-	xmlns="http://pmd.sf.net/ruleset/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
-	xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd">
+<ruleset name="A7 - Insecure Cryptographic Storage" 
+ 		 xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
 	<description>
    		This file is part of the GDS PMD Secure Coding Ruleset.
@@ -18,7 +18,7 @@
   		Violations should be manually reviewed and in most cases the algorithm should be replaced with a stronger alternative. 
   		Additional algorithms should be added for increased coverage.
   </description>
-
+  <priority>3</priority>
 		<properties>
 			<property name="xpath">
 				<value>
@@ -30,7 +30,7 @@
     </value>
 			</property>
 		</properties>
-		<priority>3</priority>
+		
 	</rule>
 
 

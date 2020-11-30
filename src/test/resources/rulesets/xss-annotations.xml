@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="A2 - Cross-Site Scripting" language="java"
-	xmlns="http://pmd.sf.net/ruleset/1.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd" 
-	xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd">
+<ruleset name="A2 - Cross-Site Scripting" 
+		 xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
    
+   
+   <!--  Custom rule for xss to allow for test annotations for sinks and sanitizers -->
    <description>
    		This file is part of the GDS PMD Secure Coding Ruleset.
    		
    		This ruleset contains rules that are intended to detect Cross-Site Scripting.
    </description>
    
-   <rule class="com.gdssecurity.pmd.rules.dfa.DfaSecurityRule" name="CrossSiteScripting" message="Cross-Site Scripting (Reflected)" dfa="true" typeResolution="true" externalInfoUrl="https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_%28XSS%29">
+   <rule 
+   	class="com.gdssecurity.pmd.rules.dfa.DfaSecurityRule" 
+   	name="CrossSiteScripting" 
+   	message="Cross-Site Scripting (Reflected)" 
+   	dfa="true" 
+   	typeResolution="true" 
+   	language="java"
+   	externalInfoUrl="https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_%28XSS%29">
       <description>
 	This rule utilizes the PMD data flow analysis (DFA) layer to help trace input from source to sink. PMD is unable to track data flow from source to sink across files. Therefore, the scope of analysis is limited to a single file and even within that a single method (i.e. PMD DFA is intraprocedural).
 	

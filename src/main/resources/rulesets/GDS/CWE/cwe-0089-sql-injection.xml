@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="A1 - Injection" language="java"
-	xmlns="http://pmd.sf.net/ruleset/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
-	xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd">
+<ruleset name="A1 - Injection"
+		 xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
 	<description>
          This file is part of the GDS PMD Secure Coding Ruleset.
@@ -15,7 +15,7 @@
    </description>
 
 	<rule class="com.gdssecurity.pmd.rules.dfa.DfaSecurityRule" name="SqlInjection"
-		message="Sql Injection" dfa="true" typeResolution="true"
+		message="Sql Injection" dfa="true" typeResolution="true" language="java"
 		externalInfoUrl="https://cwe.mitre.org/data/definitions/89.html">
 		<description>
    This rule utilizes the PMD data flow analysis (DFA) layer to help trace input from source to sink. PMD is unable to track data flow from source to sink across files. 
