@@ -864,11 +864,14 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			if (astName != null && astName.getImage() != null) {
 				return astName.getImage();
 			}
-//			ASTAllocationExpression constructor = prefix.getFirstChildOfType(ASTAllocationExpression.class);
-//			if (constructor != null) {
-//				Class<?> type = constructor.getType();
-//				return type.getSimpleName();
-//			}
+			ASTAllocationExpression constructor = prefix.getFirstChildOfType(ASTAllocationExpression.class);
+			if (constructor != null) {
+				ASTArguments constructorArguments = constructor.getFirstChildOfType(ASTArguments.class);
+				if (constructorArguments != null && constructorArguments.getArgumentCount() > 0) {
+					Class<?> type = constructor.getType();
+					return type.getSimpleName();
+				}
+			}
 		}
 		if (prefix == null) {
 			ASTName astName = node.getFirstDescendantOfType(ASTName.class);

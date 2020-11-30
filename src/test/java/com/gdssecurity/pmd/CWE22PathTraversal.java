@@ -11,9 +11,9 @@ public class CWE22PathTraversal {
 	}
 
 	@Test
-	@Ignore("Not yet implemented")
+//	@Ignore("Not yet implemented")
 	public void test1() throws Exception {
-		Assert.assertEquals(2, PMDRunner.run("src/test/java/resources/cwe22pathtraversal/PathTraversalExample.java",
+		Assert.assertEquals(4, PMDRunner.run("src/test/java/resources/cwe22pathtraversal/PathTraversalExample.java",
 				PMDRunner.RULEST_PATH_TRAVERSAL));
 	}
 }
