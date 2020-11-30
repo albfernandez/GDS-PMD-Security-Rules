@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class InheritanceTest {
 	
@@ -11,7 +11,7 @@ public class InheritanceTest {
 
 	@Test
 	public void test1 () throws Exception {
-		Assert.assertEquals(
+		Assertions.assertEquals(
 				2,
 				PMDRunner.run("src/test/java/resources/inheritance/", PMDRunner.RULESET_SQL_INJECTION)
 		);

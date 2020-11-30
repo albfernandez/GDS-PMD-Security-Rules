@@ -1,8 +1,8 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class WritingToResponseWithWriter {
 
@@ -11,8 +11,8 @@ public class WritingToResponseWithWriter {
 	}
 	
 	@Test
-	@Ignore("to be fixed")
+	@Disabled("to be fixed")
 	public void test1() throws Exception {
-		Assert.assertEquals(1, PMDRunner.run("src/test/java/resources/others/bug31/UsingWriterOnReponseGetOutputStream.java", PMDRunner.RULESET_XSS));
+		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/others/bug31/UsingWriterOnReponseGetOutputStream.java", PMDRunner.RULESET_XSS));
 	}
 }

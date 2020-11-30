@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CWE935NoAccessControlTest {
 	
@@ -11,7 +11,7 @@ public class CWE935NoAccessControlTest {
 
 	@Test
 	public void test1() throws Exception {
-		Assert.assertEquals(2,
+		Assertions.assertEquals(2,
 				PMDRunner.run("src/test/java/resources/cwe935noaccesscontrol/TestRoleAuthZServlet.java", PMDRunner.RULESET_ACCESS));
 	}
 }

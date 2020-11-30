@@ -1,9 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.gdssecurity.pmd.PMDRunner;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SinkFullPackageNameTest {
 
@@ -19,6 +17,6 @@ public class SinkFullPackageNameTest {
 						"src/test/java/resources/others/SinkFullPackageExample.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(1, violations);
+		Assertions.assertEquals(1, violations);
 	}
 }

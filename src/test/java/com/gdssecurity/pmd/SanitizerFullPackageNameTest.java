@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SanitizerFullPackageNameTest {
 
@@ -17,6 +17,6 @@ public class SanitizerFullPackageNameTest {
 						"src/test/java/resources/others/SanitizerFullPackageNameExample.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(0, violations);
+		Assertions.assertEquals(0, violations);
 	}
 }

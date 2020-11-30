@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class StringSplitTest {
 
@@ -11,6 +11,6 @@ public class StringSplitTest {
 	
 	@Test
 	public void testStringSplit () throws Exception {
-		Assert.assertEquals(2, PMDRunner.run("src/test/java/resources/others/StringSplitExample.java", PMDRunner.RULESET_SQL_INJECTION));
+		Assertions.assertEquals(2, PMDRunner.run("src/test/java/resources/others/StringSplitExample.java", PMDRunner.RULESET_SQL_INJECTION));
 	}
 }

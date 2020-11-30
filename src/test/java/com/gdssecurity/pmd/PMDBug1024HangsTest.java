@@ -1,7 +1,9 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.time.Duration;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PMDBug1024HangsTest {
 
@@ -10,8 +12,10 @@ public class PMDBug1024HangsTest {
 		super();
 	}
 	
-	@Test(timeout=10000)
+	@Test
 	public void testTimeoutPMDBug1024 () throws Exception{
-		Assert.assertEquals(0, PMDRunner.run("src/test/java/resources/others/pmdbug1024/PMDBug1024.java", PMDRunner.RULESET_UNVALIDATED_REDIRECTS));
+		Assertions.assertTimeout(Duration.ofSeconds(10), () -> {
+			Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/others/pmdbug1024/PMDBug1024.java", PMDRunner.RULESET_UNVALIDATED_REDIRECTS));
+		});
 	}
 }

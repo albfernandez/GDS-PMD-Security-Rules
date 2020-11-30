@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NonASCIIJavaTest {
 	
@@ -10,7 +10,7 @@ public class NonASCIIJavaTest {
 	}
 	@Test
 	public void testStringManipulation () throws Exception {
-		Assert.assertEquals(2, PMDRunner.run("src/test/java/resources/noascii/NonASCIIJavaExample.java", PMDRunner.RULESET_SQL_INJECTION));
+		Assertions.assertEquals(2, PMDRunner.run("src/test/java/resources/noascii/NonASCIIJavaExample.java", PMDRunner.RULESET_SQL_INJECTION));
 	}
 
 }

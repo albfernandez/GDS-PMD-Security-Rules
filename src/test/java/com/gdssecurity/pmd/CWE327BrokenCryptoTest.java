@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CWE327BrokenCryptoTest {
 
@@ -11,7 +11,7 @@ public class CWE327BrokenCryptoTest {
 
 	@Test
 	public void test1() throws Exception {
-		Assert.assertEquals(1,
+		Assertions.assertEquals(1,
 				PMDRunner.run("src/test/java/resources/cwe327brokencrypto/CWE327UseBrokenCryptoBasic.java", PMDRunner.RULESET_WEAK_CRYPTO));
 	}
 }

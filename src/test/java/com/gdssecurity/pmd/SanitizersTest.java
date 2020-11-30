@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SanitizersTest {
 
@@ -16,7 +16,7 @@ public class SanitizersTest {
 						"src/test/java/resources/cwe931xss/XSSSanitizers.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(1, violations);
+		Assertions.assertEquals(1, violations);
 	}
 	
 	@Test
@@ -26,7 +26,7 @@ public class SanitizersTest {
 						"src/test/java/resources/cwe931xss/XSSSanitizersESAPI.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(0, violations);
+		Assertions.assertEquals(0, violations);
 	}
 	@Test
 	public void testSanitizersOWASPEncoder() throws Exception {
@@ -35,7 +35,7 @@ public class SanitizersTest {
 						"src/test/java/resources/cwe931xss/XSSSanitizersOWASPEncoder.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(0, violations);
+		Assertions.assertEquals(0, violations);
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class SanitizersTest {
 						"src/test/java/resources/cwe931xss/XSSSanitizersParseInt.java", 
 						PMDRunner.RULESET_XSS
 		);
-		Assert.assertEquals(0, violations);
+		Assertions.assertEquals(0, violations);
 	}
 	
 }

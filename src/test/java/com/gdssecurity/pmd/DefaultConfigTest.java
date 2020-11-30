@@ -1,7 +1,9 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.time.Duration;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DefaultConfigTest {
 	
@@ -10,9 +12,11 @@ public class DefaultConfigTest {
 	}
 	
 	// Execute default rules over all tests files to ensure no misconfiguration occurs
-	@Test(timeout=20000)
+	@Test
 	public void defaultConfig() throws Exception {
-		Assert.assertTrue(PMDRunner.run("src/test/java/resources", PMDRunner.RULESET_DEFAULT) > 0);
+		Assertions.assertTimeout(Duration.ofSeconds(20), () -> {
+			Assertions.assertTrue(PMDRunner.run("src/test/java/resources", PMDRunner.RULESET_DEFAULT) > 0);
+		});
 	}
 
 }

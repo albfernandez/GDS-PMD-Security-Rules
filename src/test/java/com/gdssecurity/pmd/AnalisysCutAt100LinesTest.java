@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AnalisysCutAt100LinesTest {
 	
@@ -11,7 +11,7 @@ public class AnalisysCutAt100LinesTest {
 	
 	@Test
 	public void analisysCutAt100Lines() throws Exception{
-		Assert.assertEquals(2, PMDRunner.run("src/test/java/resources/others/pmdbug1469/AnalisysCutAt100Lines.java", PMDRunner.RULESET_XSS));
+		Assertions.assertEquals(2, PMDRunner.run("src/test/java/resources/others/pmdbug1469/AnalisysCutAt100Lines.java", PMDRunner.RULESET_XSS));
 	}
 
 }

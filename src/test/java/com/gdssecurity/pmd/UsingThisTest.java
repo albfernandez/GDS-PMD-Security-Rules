@@ -1,7 +1,7 @@
 package com.gdssecurity.pmd;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UsingThisTest {
 	
@@ -11,6 +11,6 @@ public class UsingThisTest {
 
 	@Test
 	public void testUsingThis () throws Exception {
-		Assert.assertEquals(1, PMDRunner.run("src/test/java/resources/others/UsingThis.java", PMDRunner.RULESET_SQL_INJECTION));
+		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/others/UsingThis.java", PMDRunner.RULESET_SQL_INJECTION));
 	}
 }
