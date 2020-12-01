@@ -12,10 +12,5 @@ public class UsingThis {
 		this.con.prepareStatement(query);				 
 	}
 	
-	// Should fire a violation
-//	public void badMethod2(String badParam, Connection con) throws SQLException {
-//		if (con.createStatement().executeQuery("select * from table where field='" + badParam + "'").next()) {
-//			
-//		}
-//	}
+
 }

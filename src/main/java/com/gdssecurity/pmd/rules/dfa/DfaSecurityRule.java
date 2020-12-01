@@ -77,6 +77,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTType;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclarator;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableInitializer;
+import net.sourceforge.pmd.lang.java.ast.AbstractJavaTypeNode;
 import net.sourceforge.pmd.lang.symboltable.NameDeclaration;
 import net.sourceforge.pmd.properties.PropertyDescriptor;
 import net.sourceforge.pmd.properties.PropertyFactory;
@@ -221,7 +222,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 						addClassFieldsToTaintedVariables(node);
 						this.currentPathTaintedVariables.addAll(this.fieldTypesTainted);
 						this.currentPathTaintedVariables.addAll(this.functionParameterTainted);
-					} else if (nodeClass == ASTVariableDeclarator.class || nodeClass == ASTStatementExpression.class) {
+					} else if (nodeClass == ASTVariableDeclarator.class || nodeClass == ASTStatementExpression.class || nodeClass == ASTExpression.class) {
 						handleDataFlowNode(iDataFlowNode);
 					}
 					else if (nodeClass == ASTReturnStatement.class) {
@@ -377,8 +378,6 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 	
 
-
-
 	private void handeReturnNode(Node node, DataFlowNode iDataFlowNode) {
 		
 		handleVariableReference(iDataFlowNode);
@@ -451,7 +450,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private void handleDataFlowNode(DataFlowNode iDataFlowNode) {
-		for (VariableAccess access : iDataFlowNode.getVariableAccess()) {
+		List<VariableAccess> variableAcces = iDataFlowNode.getVariableAccess();
+		for (VariableAccess access : variableAcces) {
 			if (access.isDefinition()) {
 				String variableName = access.getVariableName();
 				handleVariableDefinition(iDataFlowNode, variableName);
@@ -470,33 +470,82 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		}
 		else if (isMethodCall(simpleNode)) {
 
-			Class<?> type = null;
-			String method = "";
-
-			Node astMethod = null;
-			if (simpleNode.getFirstDescendantOfType(ASTAssignmentOperator.class) == null) {
-				astMethod = simpleNode.getFirstDescendantOfType(ASTPrimaryExpression.class);
-			} else {
-				astMethod = simpleNode.getFirstDescendantOfType(ASTExpression.class);
-			}
-			method = getMethod(astMethod);
-			if (StringUtils.isBlank(method)) {
-				astMethod = astMethod.getFirstDescendantOfType(ASTPrimaryExpression.class);
-				method = getMethod(astMethod);
-			}
-			type = getJavaType(astMethod);
-
-			if (isStringBuilderAppend(type, method)) {
-				analizeStringBuilderAppend(simpleNode);
-			}
-
-			if (isSink(type, method)) {
-				analyzeSinkMethodArgs(simpleNode);
-			}
+			topToBottom(simpleNode);
+			bottomToTop(simpleNode);
 		}
 		
 	}
 	
+	private void topToBottom(Node simpleNode) {
+		Class<?> type = null;
+		String method = "";
+
+		Node astMethod = null;
+		if (simpleNode.getFirstDescendantOfType(ASTAssignmentOperator.class) == null) {
+			astMethod = simpleNode.getFirstDescendantOfType(ASTPrimaryExpression.class);
+		} else {
+			astMethod = simpleNode.getFirstDescendantOfType(ASTExpression.class);
+		}
+		method = getMethod(astMethod);
+		if (StringUtils.isBlank(method)) {
+			astMethod = astMethod.getFirstDescendantOfType(ASTPrimaryExpression.class);
+			method = getMethod(astMethod);
+		}
+		type = getJavaType(astMethod);
+
+		if (isStringBuilderAppend(type, method)) {
+			analizeStringBuilderAppend(simpleNode);
+		}
+
+		if (isSink(type, method)) {
+			analyzeSinkMethodArgs(simpleNode);
+		}
+	}
+	
+	
+	private void bottomToTop(Node simpleNode) {
+		List<Node> methodCalls = findMethodCalls(simpleNode);
+		for (Node n : methodCalls) {
+			Class<?> type = null;
+			String method = null;
+			Node astMethod = null;
+			
+			int pos = n.getIndexInParent();
+			if (pos >= 2) {
+				Node previous = n.getParent().getChild(pos -1);
+				Node previousPrevious = n.getParent().getChild(pos -2);
+				astMethod = previous;
+				
+				method = astMethod.getImage();
+				
+				if (previousPrevious instanceof AbstractJavaTypeNode) {
+					AbstractJavaTypeNode sf = (AbstractJavaTypeNode) previousPrevious;
+					type = sf.getType();
+				}
+				
+				if (isStringBuilderAppend(type, method)) {
+					analizeStringBuilderAppend(simpleNode);
+				}
+
+				if (isSink(type, method)) {
+					analyzeSinkMethodArgs(n);
+				}
+			}
+		}
+	}
+	
+	private List<Node> findMethodCalls(Node node) {
+		List<ASTArguments> arguments = node.findDescendantsOfType(ASTArguments.class);
+		List<Node> methods = new ArrayList<>(arguments.size());
+		for (ASTArguments args: arguments) {
+			if (args.size() > 0) {
+				methods.add(args.jjtGetParent());
+			}
+		}
+		
+		return methods;
+	}
+
 	private boolean isStringBuilderAppend(Class<?> type, String methodName) {
 		return isStringBuilder(type) && ("insert".equals(methodName) || "append".equals(methodName));
 	}
