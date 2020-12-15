@@ -57,7 +57,17 @@ public class BaseSecurityRule extends AbstractJavaRule {
     		PropertyFactory.stringListProperty("sources")
     		.delim('|')
     		.desc("sources of posibble dangerous data")
-    		.defaultValues("javax.servlet.http.HttpServletRequest.getParameter")
+    		.defaultValues(
+    			"javax.servlet.ServletRequest.getParameter",
+    			"javax.servlet.ServletRequest.getParameterMap",
+    			"javax.servlet.ServletRequest.getParameterNames",
+    			"javax.servlet.ServletRequest.getParameterValues",
+    			"javax.servlet.http.HttpServletRequest.getParameter",
+    			"javax.servlet.http.HttpServletRequest.getParameterMap",
+    			"javax.servlet.http.HttpServletRequest.getParameterNames",
+    			"javax.servlet.http.HttpServletRequest.getParameterValues",
+    			"javax.servlet.http.HttpServletRequest.getHeader"    			
+    		)
     		.build();
     
    
