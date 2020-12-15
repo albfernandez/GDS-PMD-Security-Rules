@@ -1,6 +1,8 @@
 package resources.cwe22pathtraversal;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +29,11 @@ public class PathTraversalExample {
 	public void bad4(String param) {
 		File f = new File("/base/path/", param);
 		f.getAbsolutePath();
+	}
+	
+	public void bad5(String param) {
+		Path p =  Paths.get(param);
+		p.toFile().getAbsolutePath();
 	}
 	
 	public void ok(String param) {

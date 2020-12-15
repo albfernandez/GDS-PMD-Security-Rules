@@ -23,7 +23,7 @@
 
 		<properties>
 			<property name="sinks">
-				<value>java.io.File.File</value>
+				<value>java.io.File.File|java.nio.file.Paths.get</value>
 			</property>
 			<property name="sanitizers">
 				<value>org.apache.commons.io.FilenameUtils.getName|FilenameUtils.getName</value>
