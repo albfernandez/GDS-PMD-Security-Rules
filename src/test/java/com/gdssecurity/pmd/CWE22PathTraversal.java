@@ -12,6 +12,6 @@ public class CWE22PathTraversal {
 	@Test
 	public void test1() throws Exception {
 		Assertions.assertEquals(5, PMDRunner.run("src/test/java/resources/cwe22pathtraversal/PathTraversalExample.java",
-				PMDRunner.RULEST_PATH_TRAVERSAL));
+				PMDRunner.RULESET_PATH_TRAVERSAL));
 	}
 }
