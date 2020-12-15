@@ -66,7 +66,9 @@ public class BaseSecurityRule extends AbstractJavaRule {
     			"javax.servlet.http.HttpServletRequest.getParameterMap",
     			"javax.servlet.http.HttpServletRequest.getParameterNames",
     			"javax.servlet.http.HttpServletRequest.getParameterValues",
-    			"javax.servlet.http.HttpServletRequest.getHeader"    			
+    			"javax.servlet.http.HttpServletRequest.getHeader",
+    			"javax.servlet.http.HttpServletRequest.getHeaders",
+    			"javax.servlet.http.HttpServletRequest.getHeaderNames"
     		)
     		.build();
     

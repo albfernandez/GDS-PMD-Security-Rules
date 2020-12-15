@@ -13,6 +13,9 @@ public class SourcesExample {
 		out.write(request.getParameterNames().nextElement());
 		out.write(request.getParameterMap().get("bad")[0]);
 		out.write(request.getParameterValues("bad")[0]);
+		out.write(request.getHeader("bad"));
+		out.write(request.getHeaderNames().nextElement());
+		out.write(request.getHeaders("bad").nextElement());
 	}
 	
 	public void testHttpServletRequest(ServletRequest request, JspWriter out) throws IOException {

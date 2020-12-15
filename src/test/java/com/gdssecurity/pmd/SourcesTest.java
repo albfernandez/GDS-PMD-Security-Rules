@@ -10,7 +10,7 @@ public class SourcesTest {
 	}
 	@Test
 	public void testAllOptions() throws Exception {
-		Assertions.assertEquals(8, PMDRunner.run("src/test/java/resources/others/SourcesExample.java",
+		Assertions.assertEquals(11, PMDRunner.run("src/test/java/resources/others/SourcesExample.java",
 				PMDRunner.RULESET_XSS));
 	}
 }
