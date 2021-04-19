@@ -49,5 +49,10 @@ public class AnnotationTest {
 		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/annotations/AnnotationExampleValidateParamsStaticOtherClass.java", RULESET_ANNOTATIONS));
 	}
 	
+	@Test
+	public void testComplex() throws Exception {
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsExampleComplexCall1.java", RULESET_ANNOTATIONS));
+	}
+	
 	
 }
