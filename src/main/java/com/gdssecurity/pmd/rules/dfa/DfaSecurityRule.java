@@ -918,7 +918,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 				ASTArguments constructorArguments = constructor.getFirstChildOfType(ASTArguments.class);
 				if (constructorArguments != null && constructorArguments.getArgumentCount() > 0) {
 					Class<?> type = constructor.getType();
-					return type.getSimpleName();
+					if (type != null) {
+						return type.getSimpleName();
+					}
 				}
 			}
 		}
