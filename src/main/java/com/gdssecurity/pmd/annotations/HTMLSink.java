@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(value=RetentionPolicy.RUNTIME)
-@Target(value={ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
+
 public @interface HTMLSink {
 
 }
