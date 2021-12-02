@@ -282,14 +282,17 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			return "";
 		}
 		String methodName = UNKNOWN_TYPE;
-		if (node.getClass() == ASTMethodDeclaration.class || node.getClass() == ASTConstructorDeclaration.class) {
+		if (node.getClass() == ASTMethodDeclaration.class) {
 			Node declarator = node.getFirstChildOfType(ASTMethodDeclarator.class);
 			if (declarator == null) {
 				return "";
 			}
 			methodName = declarator.getImage();			
 			return type.getCanonicalName() + "." + methodName;
-
+		}
+		if (node.getClass() == ASTConstructorDeclaration.class) {
+			methodName = node.getImage();
+			return type.getCanonicalName() + "." + methodName;
 		}
 
 		return "";
