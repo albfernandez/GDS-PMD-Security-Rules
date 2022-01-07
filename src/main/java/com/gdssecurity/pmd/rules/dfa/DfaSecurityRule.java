@@ -89,12 +89,12 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private Set<String> annotatedGenerators = new HashSet<String>();
 	private Set<String> annotatedSinks = new HashSet<String>();
 	private Set<String> currentPathTaintedVariables;
-	private Set<String> functionParameterTainted = new HashSet<String>();
+	private Set<String> methodParametersTainted = new HashSet<String>();
 	private Set<String> fieldTypesTainted = new HashSet<String>();
 
 	private Map<String, Class<?>> fieldTypes;
         private Map<String, Class<?>> fieldTypesAll = new HashMap<>();
-	private Map<String, Class<?>> functionParameterTypes;
+	private Map<String, Class<?>> methodParameterTypes = new HashMap<>();
 	private Set<String> sinks;
 	private Set<String> sanitizers;
 	private Set<String> sinkAnnotations;
@@ -204,7 +204,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		if (this.currentPathTaintedVariables == null) {
 			this.currentPathTaintedVariables = new HashSet<String>();
 			this.currentPathTaintedVariables.addAll(this.fieldTypesTainted);
-			this.currentPathTaintedVariables.addAll(this.functionParameterTainted);
+			this.currentPathTaintedVariables.addAll(this.methodParametersTainted);
 		}
 
 		if (this.methodDataFlowCount < MAX_DATAFLOWS) {
@@ -221,7 +221,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 						}
 						addClassFieldsToTaintedVariables(node);
 						this.currentPathTaintedVariables.addAll(this.fieldTypesTainted);
-						this.currentPathTaintedVariables.addAll(this.functionParameterTainted);
+						this.currentPathTaintedVariables.addAll(this.methodParametersTainted);
 					} else if (nodeClass == ASTVariableDeclarator.class || nodeClass == ASTStatementExpression.class || nodeClass == ASTExpression.class) {
 						handleDataFlowNode(iDataFlowNode);
 					}
@@ -302,6 +302,12 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		return this.currentPathTaintedVariables.contains(variable);
 	}
 
+	@Override
+	public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
+		populateCache(node.getType(),node.getType().getCanonicalName());
+		return super.visit(node, data);
+	}
+	
 	@Override
 	public Object visit(ASTConstructorDeclaration astConstructorDeclaration, Object data) {
 		ASTClassOrInterfaceDeclaration astClass = astConstructorDeclaration
@@ -403,7 +409,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 		List<ASTClassOrInterfaceBodyDeclaration> declarations = astBody
 				.findChildrenOfType(ASTClassOrInterfaceBodyDeclaration.class);
-		for (ASTClassOrInterfaceBodyDeclaration declaration : declarations) {
+		
+		for (ASTClassOrInterfaceBodyDeclaration declaration : declarations) {			
 			ASTFieldDeclaration field = declaration.getFirstChildOfType(ASTFieldDeclaration.class);
 			if (field != null) {
 				Class<?> type = field.getType();
@@ -422,8 +429,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private void addMethodParamsToTaintedVariables(Node node) {
-		this.functionParameterTypes = new HashMap<String, Class<?>>();
-		this.functionParameterTainted = new HashSet<String>();
+		this.methodParameterTypes = new HashMap<String, Class<?>>();
+		this.methodParametersTainted = new HashSet<String>();
 		ASTFormalParameters formalParameters = null;
 		if (node == null) {
 			return;
@@ -444,10 +451,10 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			ASTVariableDeclaratorId name1 = parameter.getFirstChildOfType(ASTVariableDeclaratorId.class);
 			String name = name1.getName();
 			if (name != null && type != null) {
-				this.functionParameterTypes.put(name, type.getType());
+				this.methodParameterTypes.put(name, type.getType());
 			}
 			if (name != null && isUnsafeType(type)) {
-				this.functionParameterTainted.add(name);
+				this.methodParametersTainted.add(name);
 			}
 		}
 	}
@@ -1005,8 +1012,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 							if (parameterName.indexOf('.') > 0) {
 								parameterName = parameterName.substring(0, parameterName.indexOf('.'));
 							}
-							if (this.functionParameterTypes.containsKey(parameterName)) {
-								type = this.functionParameterTypes.get(parameterName);
+							if (this.methodParameterTypes.containsKey(parameterName)) {
+								type = this.methodParameterTypes.get(parameterName);
 							} else {
 								type = getTypeFromAttribute(node, parameterName);
 							}
