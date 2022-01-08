@@ -304,7 +304,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 	@Override
 	public Object visit(ASTClassOrInterfaceDeclaration node, Object data) {
-		populateCache(node.getType(),node.getType().getCanonicalName());
+		if (node != null && node.getType() != null && !StringUtils.isBlank(node.getType().getCanonicalName())) {
+			populateCache(node.getType(),node.getType().getCanonicalName());
+		}
 		return super.visit(node, data);
 	}
 	
