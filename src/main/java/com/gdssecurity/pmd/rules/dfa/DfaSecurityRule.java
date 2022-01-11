@@ -90,7 +90,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private Set<String> annotatedSinks = new HashSet<String>();
 	private Set<String> currentPathTaintedVariables;
 	private Set<String> methodParametersTainted = new HashSet<String>();
-	private Set<String> fieldTypesTainted = new HashSet<String>();
+	private Set<String> fieldsTainted = new HashSet<String>();
 
 	private Map<String, Class<?>> fieldTypes;
         private Map<String, Class<?>> fieldTypesAll = new HashMap<>();
@@ -203,7 +203,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		this.methodDataFlowCount++;
 		if (this.currentPathTaintedVariables == null) {
 			this.currentPathTaintedVariables = new HashSet<String>();
-			this.currentPathTaintedVariables.addAll(this.fieldTypesTainted);
+			this.currentPathTaintedVariables.addAll(this.fieldsTainted);
 			this.currentPathTaintedVariables.addAll(this.methodParametersTainted);
 		}
 
@@ -214,15 +214,13 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 				if (node != null) {
 					Class<?> nodeClass = node.getClass();
 					if (nodeClass == ASTMethodDeclaration.class || nodeClass == ASTConstructorDeclaration.class) {
-						this.currentPathTaintedVariables = new HashSet<String>();
+						clearTaintedAndVariablesList();
 						this.generator = isGeneratorThisMethodDeclaration(node);
-						this.methodParameterTypes = new HashMap<String, Class<?>>();
-						this.methodParametersTainted = new HashSet<String>();
 						if (!isSinkThisMethodDeclaration(node)) {
  							addMethodParamsToTaintedVariables(node);
 						}
 						addClassFieldsToTaintedVariables(node);
-						this.currentPathTaintedVariables.addAll(this.fieldTypesTainted);
+						this.currentPathTaintedVariables.addAll(this.fieldsTainted);
 						this.currentPathTaintedVariables.addAll(this.methodParametersTainted);
 					} else if (nodeClass == ASTVariableDeclarator.class || nodeClass == ASTStatementExpression.class || nodeClass == ASTExpression.class) {
 						handleDataFlowNode(iDataFlowNode);
@@ -242,6 +240,14 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			}
 
 		}
+	}
+
+	private void clearTaintedAndVariablesList() {
+		this.currentPathTaintedVariables = new HashSet<String>();
+		this.methodParameterTypes = new HashMap<String, Class<?>>();
+		this.methodParametersTainted = new HashSet<String>();
+		this.fieldTypes = new HashMap<String, Class<?>>();
+		this.fieldsTainted = new HashSet<String>();
 	}
 
 	protected boolean isSanitizerMethod(String type, String method) {
@@ -403,8 +409,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 	private void addClassFieldsToTaintedVariables(Node node) {
 
-		this.fieldTypes = new HashMap<String, Class<?>>();
-		this.fieldTypesTainted = new HashSet<String>();
+
 
 		ASTClassOrInterfaceBody astBody = node.getFirstParentOfType(ASTClassOrInterfaceBody.class);
 		if (astBody == null) {
@@ -424,7 +429,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 					String name = name1.getName();
 					this.fieldTypes.put(name, type);
 					if (!field.isFinal() && isUnsafeType(field.getType())) {
-						this.fieldTypesTainted.add("this." + name);
+						this.fieldsTainted.add("this." + name);
 					}
 				}
 			}
@@ -433,8 +438,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private void addMethodParamsToTaintedVariables(Node node) {
-		this.methodParameterTypes = new HashMap<String, Class<?>>();
-		this.methodParametersTainted = new HashSet<String>();
+
 		ASTFormalParameters formalParameters = null;
 		if (node == null) {
 			return;
