@@ -63,11 +63,7 @@
 			<artifactId>pmd-java</artifactId>
 			<version>${version.pmd}</version>
 		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.pmd</groupId>
-			<artifactId>pmd-jsp</artifactId>
-			<version>${version.pmd}</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
