@@ -216,6 +216,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 					if (nodeClass == ASTMethodDeclaration.class || nodeClass == ASTConstructorDeclaration.class) {
 						this.currentPathTaintedVariables = new HashSet<String>();
 						this.generator = isGeneratorThisMethodDeclaration(node);
+						this.methodParameterTypes = new HashMap<String, Class<?>>();
+						this.methodParametersTainted = new HashSet<String>();
 						if (!isSinkThisMethodDeclaration(node)) {
  							addMethodParamsToTaintedVariables(node);
 						}

@@ -11,7 +11,6 @@ public class SkinCallSinkTest {
 	}
 	
 	@Test
-//	@org.junit.jupiter.api.Disabled("not yet fixed")
 	public void testCallSink () throws Exception {
 		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsSinkCallSink.java", "rulesets/xss-annotations.xml"));
 	}
