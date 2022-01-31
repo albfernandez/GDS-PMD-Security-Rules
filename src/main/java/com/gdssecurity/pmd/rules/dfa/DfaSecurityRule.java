@@ -156,6 +156,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private int MAX_LOOPS = 500;
 	private boolean generator = false;
 	private boolean initialized = false;
+	
+	private HashMap<Class<?>, ClassInfo> cacheType = new HashMap<>();
 
 	public DfaSecurityRule() {
 		super();
@@ -407,12 +409,23 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		
 	}
 
+
+	
+	
 	private void addClassFieldsToTaintedVariables(Node node) {
 
 
 
 		ASTClassOrInterfaceBody astBody = node.getFirstParentOfType(ASTClassOrInterfaceBody.class);
 		if (astBody == null) {
+			return;
+		}
+		
+		Class<?> thisClass = getJavaType(astBody);
+		if (cacheType.containsKey(thisClass)){
+			ClassInfo info = cacheType.get(thisClass);
+			this.fieldTypes.putAll(info.fieldTypes);
+			this.fieldsTainted.addAll(info.fieldsTainted);
 			return;
 		}
 
@@ -434,6 +447,11 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 				}
 			}
 		}
+		
+		ClassInfo info = new ClassInfo();
+		info.fieldTypes.putAll(this.fieldTypes);
+		info.fieldsTainted.addAll(this.fieldsTainted);
+		cacheType.put(thisClass, info);
 
 	}
 
@@ -1118,6 +1136,11 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private boolean isField(ASTName name) {
 		NameDeclaration declaration = name.getNameDeclaration();
 		return declaration != null && !declaration.getNode().getParentsOfType(ASTFieldDeclaration.class).isEmpty();
+	}
+	
+	private static class ClassInfo {
+		private HashMap<String, Class<?>> fieldTypes = new HashMap<>();
+		private HashSet<String> fieldsTainted = new HashSet<>();
 	}
 
 }
