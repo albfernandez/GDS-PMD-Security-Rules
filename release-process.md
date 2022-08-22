@@ -20,8 +20,8 @@ JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/ mvn clean package install verify
 mvn clean package install verify
 mvn clean package install deploy
 git add -A
-git commit -S -m 'Release <2.3.12>'
-git tag -a <2.3.12> -m "Tagging release <2.3.12>"
+git commit -S -m 'Release <2.29.0>'
+git tag -a <v.2.29.0> -m "Tagging release <2.29.0>"
 git push
 git push --tags
 ```
@@ -30,7 +30,7 @@ git push --tags
 ## Prepare next iteration
 
 ```bash
-# change release in pom.xml to nex -SNAPSHOT
+# change release in pom.xml to next -SNAPSHOT
 git add -A
 git commit -S -m 'Next release cycle'
 git push
