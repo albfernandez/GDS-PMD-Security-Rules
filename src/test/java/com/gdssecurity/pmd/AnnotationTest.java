@@ -51,7 +51,12 @@ public class AnnotationTest {
 	
 	@Test
 	public void testComplex() throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsExampleComplexCall1.java", RULESET_ANNOTATIONS));
+		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/annotations/AnnotationsExampleComplexCall1.java", RULESET_ANNOTATIONS));
+	}
+	
+	@Test
+	public void testComplex3() throws Exception {
+		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/annotations/AnnotationsExampleComplexCall3.java", RULESET_ANNOTATIONS));
 	}
 	
 	

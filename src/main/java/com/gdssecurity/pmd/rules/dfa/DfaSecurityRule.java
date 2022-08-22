@@ -759,13 +759,14 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 					continue;
 				}
 				String type = getType(node);
-				if (isSanitizerMethod(type, method) || isGenerator(type, method)) {
-					continue;
-				} else if (isSink(type, method)) {
+				
+				if (isSink(type, method)) {
 					analyzeSinkMethodArgs(node);
-				} else if (isSafeType(getReturnType(node, type, method))) {
+				} 
+				if (isSanitizerMethod(type, method) || isGenerator(type, method) || isSafeType(getReturnType(node, type, method))) {
 					continue;
-				} else if (isSource(type, method) || isUsedOverTaintedVariable(node) || isAnyArgumentTainted(node)) {
+				} 
+				else if (isSource(type, method) || isUsedOverTaintedVariable(node) || isAnyArgumentTainted(node)) {
 					return true;
 				}
 
