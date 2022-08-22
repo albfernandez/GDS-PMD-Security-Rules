@@ -16,6 +16,6 @@ public class AnnotationsParameterConfussion {
 	
 	@HTMLSink
 	public void sink(JspWriter response, String param) throws IOException  {
-		response.write(param); // no warning shoud be triggered here
+		response.write(param); // no warning should be triggered here
 	}
 }
