@@ -729,6 +729,25 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		if (isTainted(simpleNode) && isUnsafeType(clazz)) {
 			this.currentPathTaintedVariables.add(variable);
 		}
+		List<ASTArguments> arguments = simpleNode.findDescendantsOfType(ASTArguments.class);
+		for (ASTArguments a: arguments) {
+			checkMethod(a.getParent().getParent());
+		}
+		
+	}
+	
+	private void checkMethod(Node node) {
+		String method = getMethod(node);
+		if(StringUtils.isBlank(method)) {
+			// It's a method call but cannot determinate method name, strange
+			return;
+		}
+		String type = getType(node);
+		
+		if (isSink(type, method)) {
+			analyzeSinkMethodArgs(node);
+		} 
+		
 	}
 
 	private boolean isTainted(Node node2) {
@@ -769,6 +788,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 				else if (isSource(type, method) || isUsedOverTaintedVariable(node) || isAnyArgumentTainted(node)) {
 					return true;
 				}
+				
+
 
 			} else if (node.hasDescendantOfType(ASTName.class)) {
 				List<ASTName> astNames = node.findDescendantsOfType(ASTName.class);
