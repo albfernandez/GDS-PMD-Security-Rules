@@ -1085,7 +1085,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			}
 		} else if (nodeClass == ASTName.class) {
 			type = ((ASTName) node).getType();
-		} else if (nodeClass == ASTMethodDeclaration.class || nodeClass == ASTConstructorDeclaration.class) {
+		} else if (nodeClass == ASTMethodDeclaration.class || nodeClass == ASTConstructorDeclaration.class || nodeClass == ASTClassOrInterfaceBody.class) {
 			type = getContainingType(node);
 		}
 		if (type != null) {
@@ -1098,32 +1098,29 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private Class<?> getTypeFromAttribute(Node node, String attributeName) {
 		Class<?> type = getContainingType(node);
 
-
 		if (type != null) {
-			
+
 			List<Class<?>> inheritanceList = getInheritance(type);
 
 			for (Class<?> clazz : inheritanceList) {
-                                Class<?> t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
-                                if (t1 != null) {
-                                    return t1;
-                                }
-                                List<Field> fields = FieldUtils.getAllFieldsList(clazz);
-                                for (Field field: fields) {
-                                    this.fieldTypesAll.put(clazz.getCanonicalName() + "." + field.getName(), field.getType());
-                                }
-                                t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
-                                if (t1 != null) {
-                                    return t1;
-                                } 				
+				Class<?> t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
+				if (t1 != null) {
+					return t1;
+				}
+				List<Field> fields = FieldUtils.getAllFieldsList(clazz);
+				for (Field field : fields) {
+					this.fieldTypesAll.put(clazz.getCanonicalName() + "." + field.getName(), field.getType());
+				}
+				t1 = this.fieldTypesAll.get(clazz.getCanonicalName() + "." + attributeName);
+				if (t1 != null) {
+					return t1;
+				}
 			}
-			
-		}
 
+		}
 
 		return type;
 	}
-        
 
 
 	private List<Class<?>> getInheritance(Class<?> declaringClass) {
