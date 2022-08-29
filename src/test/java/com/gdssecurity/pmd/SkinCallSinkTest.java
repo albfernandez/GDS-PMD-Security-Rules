@@ -12,6 +12,6 @@ public class SkinCallSinkTest {
 	
 	@Test
 	public void testCallSink () throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsSinkCallSink.java", "rulesets/xss-annotations.xml"));
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsSinkCallSink.java", PMDRunner.RULESET_ANNOTATIONS));
 	}
 }

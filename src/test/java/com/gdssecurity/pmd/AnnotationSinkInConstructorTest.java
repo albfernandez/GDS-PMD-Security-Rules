@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class AnnotationSinkInConstructorTest {
 	
-	private static final String RULESET_ANNOTATIONS = "rulesets/xss-annotations.xml";
 	
 	public AnnotationSinkInConstructorTest() {
 		super();
@@ -13,7 +12,7 @@ public class AnnotationSinkInConstructorTest {
 	
 	@Test
 	public void testAnnotationSinkInConstructor() throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor1.java", RULESET_ANNOTATIONS));	
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor1.java", PMDRunner.RULESET_ANNOTATIONS));	
 	}
 
 }

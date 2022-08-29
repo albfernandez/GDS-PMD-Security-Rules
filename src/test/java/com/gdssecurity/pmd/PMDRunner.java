@@ -15,6 +15,7 @@ public final class PMDRunner {
 	public static final String RULESET_WEAK_CRYPTO = "rulesets/GDS/CWE/cwe-0327-weak-cryptographic-algorithms.xml";
 	public static final String RULESET_UNVALIDATED_REDIRECTS = "rulesets/GDS/CWE/cwe-0601-open-redirect.xml";
 	public static final String RULESET_HTTP_RESPONSE_SPLITTING = "rulesets/GDS/CWE/cwe-0113-http-response-splitting.xml";
+	public static final String RULESET_ANNOTATIONS = "rulesets/xss-annotations.xml";
 
 	private PMDRunner() {
 		throw new AssertionError("No instances allowed");
