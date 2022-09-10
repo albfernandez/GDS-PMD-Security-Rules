@@ -49,13 +49,7 @@
          		|org.owasp.esapi.Encoder.encodeForHTML
          		|org.owasp.esapi.Encoder.encodeForHTMLAttribute
          		|org.owasp.esapi.Encoder.encodeForXML
-         		|org.owasp.esapi.Encoder.encodeForXMLAttribute
-         		|org.owasp.esapi.Encoder.
-         		|org.owasp.esapi.Encoder.
-         		|org.owasp.esapi.Encoder.
-         		|org.owasp.esapi.Encoder.
-         		|org.owasp.esapi.Encoder.
-         		|org.owasp.esapi.Encoder.		
+         		|org.owasp.esapi.Encoder.encodeForXMLAttribute	
          		</value>
 			</property>
 		</properties>
