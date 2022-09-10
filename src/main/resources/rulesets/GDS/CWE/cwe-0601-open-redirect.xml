@@ -23,7 +23,10 @@
 
 		<properties>
 			<property name="sinks">
-				<value>javax.servlet.http.HttpServletResponse.sendRedirect</value>
+				<value>
+javax.servlet.http.HttpServletResponse.sendRedirect
+|jakarta.servlet.http.HttpServletResponse.sendRedirect
+				</value>
 			</property>
 		</properties>
 

@@ -30,6 +30,9 @@
          		|javax.servlet.jsp.JspWriter.print
          		|javax.servlet.jsp.JspWriter.println
          		|javax.servlet.jsp.JspWriter.write
+         		|jakarta.servlet.jsp.JspWriter.print
+         		|jakarta.servlet.jsp.JspWriter.println
+         		|jakarta.servlet.jsp.JspWriter.write
          		|java.io.PrintWriter.print
          		|java.io.PrintWriter.println
          		|java.io.PrintWriter.write

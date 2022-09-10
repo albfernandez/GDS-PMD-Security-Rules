@@ -41,6 +41,11 @@
 |javax.persistence.EntityQuery.createQuery
 |javax.persistence.EntityManager.createNativeQuery
 |javax.persistence.EntityManager.createQuery
+|jakarta.persistence.EntityQuery.createNamedQuery
+|jakarta.persistence.EntityQuery.createNativeQuery
+|jakarta.persistence.EntityQuery.createQuery
+|jakarta.persistence.EntityManager.createNativeQuery
+|jakarta.persistence.EntityManager.createQuery
 			</value>
 			</property>
 			<property name="safeTypes">

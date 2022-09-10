@@ -33,7 +33,16 @@
 				|javax.servlet.http.HttpServletResponse.setDateHeader
 				|javax.servlet.http.HttpServletResponse.setHeader
 				|javax.servlet.http.HttpServletResponse.setIntHeader
-				|javax.servlet.http.HttpServletResponse.setStatus				
+				|javax.servlet.http.HttpServletResponse.setStatus
+				|jakarta.servlet.http.HttpServletResponse.addDateHeader
+				|jakarta.servlet.http.HttpServletResponse.addHeader
+				|jakarta.servlet.http.HttpServletResponse.addIntHeader
+				|jakarta.servlet.http.HttpServletResponse.sendError
+				|jakarta.servlet.http.HttpServletResponse.sendRedirect
+				|jakarta.servlet.http.HttpServletResponse.setDateHeader
+				|jakarta.servlet.http.HttpServletResponse.setHeader
+				|jakarta.servlet.http.HttpServletResponse.setIntHeader
+				|jakarta.servlet.http.HttpServletResponse.setStatus	
 				</value>
 			</property>
 		</properties>
