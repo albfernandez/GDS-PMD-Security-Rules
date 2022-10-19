@@ -891,14 +891,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			}
 		}
 		
-		Constructor<?>[] constructors = new Constructor[0];
-		try {
-			constructors = Utils.getConstructors(clazz);
-		}
-		catch (NoClassDefFoundError ignored) {
-			
-		}
-		for (Constructor<?> constructor: constructors) {
+
+		for (Constructor<?> constructor: Utils.getConstructors(clazz)) {
 			String methodName = clazz.getSimpleName();
 			String key = clazz.getCanonicalName() + "." + methodName;
 			String retunTypeName = clazz.getCanonicalName();
