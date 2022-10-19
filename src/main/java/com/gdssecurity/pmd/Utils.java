@@ -147,7 +147,12 @@ public final class Utils {
 	}
 	
 	public static Constructor<?>[] getConstructors(Class<?> clazz) {
-		return clazz.getDeclaredConstructors();
+		try {
+			return clazz.getDeclaredConstructors();
+		}
+		catch (NoClassDefFoundError | ExceptionInInitializerError  err) {
+			return new Constructor<?>[0];
+		}
 	}
 
 }
