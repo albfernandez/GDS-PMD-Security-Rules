@@ -216,7 +216,7 @@ public class BaseSecurityRule extends AbstractJavaRule {
                 SecurityRuleViolation secRuleViolation = (SecurityRuleViolation) ruleViolation;	    		
 		        	
                 if (rule.getName().equals(secRuleViolation.getRule().getName())
-                        && ctx.getSourceCodeFilename().equals(secRuleViolation.getJavaFileName())
+                        && ctx.getSourceCodeFile().getAbsolutePath().equals(secRuleViolation.getJavaFileName())
                         && simpleNode.getBeginLine() == secRuleViolation.getJavaBeginLine()
                         && simpleNode.getEndLine()  == secRuleViolation.getJavaEndLine()) {
                     isNewSecurityViolation = false;

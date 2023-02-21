@@ -86,7 +86,10 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
     	
     public SecurityRuleViolation(Rule rule, RuleContext ctx, Node node, String specificMsg, String variable) {
         this.rule = rule;
-        this.javaFileName = ctx.getSourceCodeFilename();
+        if (ctx.getSourceCodeFile() != null) {
+        	this.javaFileName = ctx.getSourceCodeFile().getAbsolutePath();
+        }
+//        this.javaFileName = ctx.getSourceCodeFilename();
         this.variableName = variable;
        
         if (node != null) {
@@ -120,9 +123,10 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
 
 
             this.javaBeginLine = node.getBeginLine(); 
-            this.javaEndLine = node.getEndLine(); 
+            this.javaEndLine = node.getEndLine();
+            
 
-            if (this.javaFileName.indexOf("WEB-INF") > 0) {
+            if (this.javaFileName.contains("WEB-INF")) {
                 int webRootDirPos = this.javaFileName.indexOf("WEB-INF");
                 String webRootDirName = this.javaFileName.substring(0,
                         webRootDirPos);
@@ -141,6 +145,8 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
                 this.fileName = this.javaFileName;
                 this.beginLine = this.javaBeginLine;
                 this.endLine = this.javaEndLine;
+                this.beginColumn = node.getBeginColumn();
+                this.endColumn = node.getEndColumn();
             }
 
             if ("".equals(specificMsg)) {
