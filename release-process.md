@@ -2,7 +2,6 @@
 
 This guide provides a chronological steps which goes through release tagging, staging, verification and publishing.
 
-To see the original Jboss Seam guide, see [release-process.txt](release-process.txt)
 
 ## Check the SNAPSHOT builds and pass the tests
 

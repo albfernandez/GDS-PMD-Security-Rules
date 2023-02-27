@@ -133,9 +133,8 @@ The resulting jar is target/pmd-gds-2.x.x.jar
 Unfortunately, the official PMD Eclipse plugin only supports XPath rules out of box. 
 Therefore, GDS Secure Coding Ruleset is not officially supported in Eclipse at this time.
 
-GDS PMD Secure Coding Ruleset is released under the Reciprocal Public License 1.5 (RPL1.5)
-http://www.opensource.org/licenses/rpl1.5
+GDS PMD Secure Coding Ruleset is released under the [GPL 3.0 License](LICENSE)
 
-(C) Copyright 2014-2018 Alberto Fernández 
+(C) Copyright 2014-2023 Alberto Fernández 
 
 (C) Copyright 2012 Gotham Digital Science, LLC -- All Rights Reserved 

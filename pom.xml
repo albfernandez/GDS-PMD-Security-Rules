@@ -4,15 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.albfernandez</groupId>
 	<artifactId>pmd-gds</artifactId>
-	<version>2.33.0-SNAPSHOT</version>
+	<version>2.33.0</version>
 	<url>https://github.com/albfernandez/GDS-PMD-Security-Rules</url>
 	<packaging>jar</packaging>
 	<name>PMD-Security-Rules</name>
 	<description>Custom ruleset for the open source static analysis tool PMD. The ruleset contains rules intended to identify security violations that map to the 2013 OWASP Top 10</description>
 	<licenses>
 		<license>
-			<name>LGPL</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<name>GPL</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
 		</license>
 	</licenses>
 	<developers>
