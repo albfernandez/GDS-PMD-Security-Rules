@@ -145,8 +145,6 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
                 this.fileName = this.javaFileName;
                 this.beginLine = this.javaBeginLine;
                 this.endLine = this.javaEndLine;
-                this.beginColumn = node.getBeginColumn();
-                this.endColumn = node.getEndColumn();
             }
 
             if ("".equals(specificMsg)) {
