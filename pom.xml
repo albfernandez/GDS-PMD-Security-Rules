@@ -48,6 +48,12 @@
 		<version.sb-contrib>7.4.7</version.sb-contrib>
 		<version.checkstyle-plugin>3.1.1</version.checkstyle-plugin>
 		<version.junit>5.7.0</version.junit>
+		<version.tomcat>8.5.97</version.tomcat>
+		<version.owasp.esapi>2.5.3.1</version.owasp.esapi>
+		<version.owasp.encoder>1.2.3</version.owasp.encoder>
+		<version.commons.text>1.2</version.commons.text>
+		<version.commons.io>2.8.0</version.commons.io>
+		<version.hibernate.jpa>1.0.0.Final</version.hibernate.jpa>
 		
 		<version.maven.surefire.plugin>2.22.2</version.maven.surefire.plugin>
 	</properties>
@@ -75,51 +81,51 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.2</version>
+			<version>${version.commons.text}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
-			<version>8.5.86</version>
+			<version>${version.tomcat}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>8.5.93</version>
+			<version>${version.tomcat}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>8.0.24</version>
+			<version>${version.tomcat}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version>
+			<version>${version.hibernate.jpa}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp.esapi</groupId>
 			<artifactId>esapi</artifactId>
-			<version>2.3.0.0</version>
+			<version>${version.owasp.esapi}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp.encoder</groupId>
 			<artifactId>encoder</artifactId>
-			<version>1.2.2</version>
+			<version>${version.owasp.encoder}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.8.0</version>
+			<version>${version.commons.io}</version>
 			<scope>test</scope>
 		</dependency>
 
