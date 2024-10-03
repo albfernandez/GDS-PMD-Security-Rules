@@ -52,7 +52,7 @@
 		<version.owasp.esapi>2.5.3.1</version.owasp.esapi>
 		<version.owasp.encoder>1.2.3</version.owasp.encoder>
 		<version.commons.text>1.2</version.commons.text>
-		<version.commons.io>2.8.0</version.commons.io>
+		<version.commons.io>2.14.0</version.commons.io>
 		<version.hibernate.jpa>1.0.0.Final</version.hibernate.jpa>
 		
 		<version.maven.surefire.plugin>2.22.2</version.maven.surefire.plugin>
