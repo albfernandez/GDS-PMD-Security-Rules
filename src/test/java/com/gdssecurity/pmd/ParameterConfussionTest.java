@@ -11,7 +11,7 @@ public class ParameterConfussionTest {
 	
 	@Test
 	public void confussion() throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsParameterConfussion.java", PMDRunner.RULESET_ANNOTATIONS));
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationsParameterConfussion.java", PMDRunner.RULESET_XSS_ANNOTATIONS));
 	}
 
 }

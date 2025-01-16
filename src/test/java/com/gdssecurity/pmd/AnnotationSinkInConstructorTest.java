@@ -12,7 +12,7 @@ public class AnnotationSinkInConstructorTest {
 	
 	@Test
 	public void testAnnotationSinkInConstructor() throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor1.java", PMDRunner.RULESET_ANNOTATIONS));	
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor1.java", PMDRunner.RULESET_XSS_ANNOTATIONS));	
 	}
 
 }

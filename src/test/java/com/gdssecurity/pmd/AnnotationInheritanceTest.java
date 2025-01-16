@@ -12,7 +12,7 @@ public class AnnotationInheritanceTest {
 	
 	@Test
 	public void testAnnotationInheritance () throws Exception {
-		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationInheritanceClass.java", PMDRunner.RULESET_ANNOTATIONS));
+		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/AnnotationInheritanceClass.java", PMDRunner.RULESET_XSS_ANNOTATIONS));
 	}
 
 }

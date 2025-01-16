@@ -17,7 +17,7 @@ public class UsingRequestAsParameterTest {
 	@Test
 	public void testUsingRequestAsParameterFixed () throws Exception {
 		Assertions.assertEquals(0, PMDRunner.run(
-				"src/test/java/resources/others/bug71/UsingRequestAsParameterFixedExample.java", PMDRunner.RULESET_ANNOTATIONS));
+				"src/test/java/resources/others/bug71/UsingRequestAsParameterFixedExample.java", PMDRunner.RULESET_XSS_ANNOTATIONS));
 	}
 
 }

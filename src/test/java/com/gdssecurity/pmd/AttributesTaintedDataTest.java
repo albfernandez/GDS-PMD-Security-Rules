@@ -10,7 +10,7 @@ public class AttributesTaintedDataTest {
 	
 	@Test
 	public void attributesAreTaintedDataByDefault () throws Exception {
-		Assertions.assertEquals(3, PMDRunner.run("src/test/java/resources/others/AttributesAreTaintedData.java", PMDRunner.RULESET_ANNOTATIONS));
+		Assertions.assertEquals(3, PMDRunner.run("src/test/java/resources/others/AttributesAreTaintedData.java", PMDRunner.RULESET_XSS_ANNOTATIONS));
 	}
 	
 	@Test
