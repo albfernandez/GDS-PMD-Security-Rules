@@ -50,6 +50,7 @@ import net.sourceforge.pmd.properties.PropertyFactory;
 public class BaseSecurityRule extends AbstractJavaRule {
 
 	protected Set<String> sources = null;	
+	protected Set<String> sourceTypes = null;
     protected Set<String> unsafeTypes = null;
     protected Set<String> safeTypes = null;
 	
@@ -69,6 +70,16 @@ public class BaseSecurityRule extends AbstractJavaRule {
     			"javax.servlet.http.HttpServletRequest.getHeader",
     			"javax.servlet.http.HttpServletRequest.getHeaders",
     			"javax.servlet.http.HttpServletRequest.getHeaderNames"
+    		)
+    		.build();
+    
+    private final PropertyDescriptor<List<String>> sourceTypesDescriptor = 
+    		PropertyFactory.stringListProperty("sourceTypes")
+    		.delim('|')
+    		.desc("sources (classes) of posibble dangerous data")
+    		.defaultValues(
+    			"javax.servlet.ServletRequest",
+    			"javax.servlet.http.HttpServletRequest"
     		)
     		.build();
     
@@ -110,6 +121,7 @@ public class BaseSecurityRule extends AbstractJavaRule {
 	public BaseSecurityRule() {
 		super();
 		definePropertyDescriptor(this.sourceDescriptor);
+		definePropertyDescriptor(this.sourceTypesDescriptor);
     	definePropertyDescriptor(this.unsafeTypesDescriptor);
     	definePropertyDescriptor(this.safeTypesDescriptor);    	
 	}
@@ -119,6 +131,7 @@ public class BaseSecurityRule extends AbstractJavaRule {
 	protected void init() {
 		if (!this.initialized) {
 			this.sources = getConfig(this.sourceDescriptor);
+			this.sourceTypes = getConfig(this.sourceTypesDescriptor);
 			this.unsafeTypes = getConfig(this.unsafeTypesDescriptor);
 			this.safeTypes = getConfig(this.safeTypesDescriptor);
 			this.initialized = true;
@@ -188,6 +201,10 @@ public class BaseSecurityRule extends AbstractJavaRule {
     			this.sources.contains(type + "." + method) || 
     			this.sources.contains ("*." + method) || 
     			this.sources.contains(type + ".*");
+    }
+    
+    protected boolean isSource(String type) {
+    	return this.sourceTypes.contains(type);
     }
     
     @Override

@@ -1147,7 +1147,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		for (ASTName name : listOfAstNames) {
 			String var = getVarName(name);
 
-			if (isTaintedVariable(var) || isSource(getType(name), var)) {
+			if (isTaintedVariable(var) || isSource(getType(name), var) || isSource(getType(name))) {
 				return true;
 			}
 		}
