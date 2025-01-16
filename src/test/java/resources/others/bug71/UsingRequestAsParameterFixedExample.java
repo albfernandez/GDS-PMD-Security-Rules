@@ -14,9 +14,10 @@ import com.gdssecurity.pmd.annotations.HTMLGenerator;
 public class UsingRequestAsParameterFixedExample {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-	    PrintWriter pw = response.getWriter();
-	    String html = generateHtml(request);
-	    pw.print(html);
+	    try (PrintWriter pw = response.getWriter()) {
+		    String html = generateHtml(request);
+		    pw.print(html);
+	    }
 
 	}
 	
