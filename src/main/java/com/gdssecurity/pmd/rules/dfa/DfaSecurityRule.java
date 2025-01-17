@@ -970,9 +970,16 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 
 		if (prefix != null) {
 			ASTName astName = prefix.getFirstChildOfType(ASTName.class);
-			if (astName != null && astName.getImage() != null) {
+			if (astName != null && astName.getImage() != null && !astName.getImage().endsWith("getInstance")) {
 				return astName.getImage();
 			}
+			
+			List<ASTPrimaryPrefix> list = node.findChildrenOfType(ASTPrimaryPrefix.class);
+			String image = list.stream().filter(e -> e.getImage() != null).map(e -> e.getImage()).findFirst().orElse(null);
+			if (image != null) {
+				return image;
+			}
+			
 			ASTAllocationExpression constructor = prefix.getFirstChildOfType(ASTAllocationExpression.class);
 			if (constructor != null) {
 				ASTArguments constructorArguments = constructor.getFirstChildOfType(ASTArguments.class);
@@ -1050,9 +1057,11 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 						ASTVariableDeclaratorId declarator = (ASTVariableDeclaratorId) dec.getNode();
 						type = declarator.getType();
 					}
+					
 				
-					if (type == null) {						
-						String parameterName = astName.getImage();
+					if (type == null) {
+						String image = astName.getImage();
+						String parameterName = image;
 						if (parameterName.indexOf('.') > 0) {
 							parameterName = parameterName.substring(0, parameterName.lastIndexOf('.'));
 							type = TypeUtils.INSTANCE.getClassForName(parameterName, astName);						
@@ -1064,9 +1073,17 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 							}
 							if (this.methodParameterTypes.containsKey(parameterName)) {
 								type = this.methodParameterTypes.get(parameterName);
-							} else {
+							}
+							
+							
+							boolean singleton = image.contains(".INSTANCE.") || image.contains(".getInstance().");
+							if (singleton && type == null && astName.getTypeDefinition() != null && astName.getTypeDefinition().getType() != null) {
+								type = astName.getTypeDefinition().getType();
+							}						
+							if (type == null) {
 								type = getTypeFromAttribute(node, parameterName);
 							}
+							
 						}
 					}
 				} else {
@@ -1118,7 +1135,7 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 					return t1;
 				}
 			}
-
+			
 		}
 
 		return type;
