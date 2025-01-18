@@ -253,7 +253,9 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	protected boolean isSanitizerMethod(String type, String method) {
- 		return this.sanitizers.contains(type + "." + method) || this.sanitizers.contains("*." + method);
+ 		return this.sanitizers.contains(type + "." + method) || 
+ 				this.sanitizers.contains("*." + method) || 
+ 				this.sanitizers.contains(type + ".*");
 	}
 
 	private boolean isSink(String objectTypeAndMethod) {
