@@ -48,7 +48,7 @@
 		<version.sb-contrib>7.4.7</version.sb-contrib>
 		<version.checkstyle-plugin>3.1.1</version.checkstyle-plugin>
 		<version.junit>5.7.0</version.junit>
-		<version.tomcat>9.0.104</version.tomcat>
+		<version.tomcat>9.0.106</version.tomcat>
 		<version.owasp.esapi>2.6.0.0</version.owasp.esapi>
 		<version.owasp.encoder>1.2.3</version.owasp.encoder>
 		<version.commons.text>1.2</version.commons.text>
