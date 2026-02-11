@@ -16,11 +16,10 @@ JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/ mvn clean package install verify
 
 ```bash
 # change release in pom.xml
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/ mvn clean package install verify -Pdeploy
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/ mvn clean package install deploy -Pdeploy
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/ mvn clean deploy -DskipTests -Pdeploy
 git add -A
-git commit -S -m 'Release <2.32.0>'
-git tag -a <v.2.32.0> -m "Tagging release <2.32.0>"
+git commit -S -m 'Release <2.37.0>'
+git tag -a <v.2.37.0> -m "Tagging release <2.37.0>"
 git push
 git push --tags
 ```
