@@ -226,9 +226,7 @@ public class BaseSecurityRule extends AbstractJavaRule {
         boolean isNewSecurityViolation = true;
     	
 
-        for (Iterator<RuleViolation> i = rpt.iterator(); i.hasNext();) {
-            RuleViolation ruleViolation = i.next();
-    		
+        for (RuleViolation ruleViolation: rpt.getViolations()) {
             if (ruleViolation != null && ruleViolation.getClass() == SecurityRuleViolation.class) {
                 SecurityRuleViolation secRuleViolation = (SecurityRuleViolation) ruleViolation;	    		
 		        	

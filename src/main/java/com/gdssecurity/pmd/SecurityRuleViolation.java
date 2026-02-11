@@ -93,17 +93,14 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
         this.variableName = variable;
        
         if (node != null) {
-            if (node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class)
-                    == null) {
-	            
+            if (node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class) == null) {	            
                 this.className = "";
             } else {            	
             	this.className = node.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class).getSimpleName();
             }
 	        
             String qualifiedName = null;
-            List<ASTClassOrInterfaceDeclaration> parents = node.getParentsOfType(
-                    ASTClassOrInterfaceDeclaration.class);
+            List<ASTClassOrInterfaceDeclaration> parents = node.getParentsOfType(ASTClassOrInterfaceDeclaration.class);
 
             for (ASTClassOrInterfaceDeclaration parent : parents) {            	
                 if (qualifiedName == null) {
@@ -124,27 +121,27 @@ public class SecurityRuleViolation implements Comparator<RuleViolation>, RuleVio
 
             this.javaBeginLine = node.getBeginLine(); 
             this.javaEndLine = node.getEndLine();
+            this.beginColumn = node.getBeginColumn();
+            this.endColumn = node.getEndColumn();
             
 
             if (this.javaFileName.contains("WEB-INF")) {
                 int webRootDirPos = this.javaFileName.indexOf("WEB-INF");
-                String webRootDirName = this.javaFileName.substring(0,
-                        webRootDirPos);
+                String webRootDirName = this.javaFileName.substring(0, webRootDirPos);
 				
                 int dot = this.javaFileName.lastIndexOf(".");
-                String smapFileName = this.javaFileName.substring(0, dot)
-                        + ".class.smap";
+                String smapFileName = this.javaFileName.substring(0, dot)  + ".class.smap";
                 SmapFileReader r = new SmapFileReader(new File(smapFileName));
                 SmapResolver resolver = new SmapResolver(r);
 				
-                this.fileName = webRootDirName
-                        + resolver.getJspFileName(this.javaBeginLine, 0); 
+                this.fileName = webRootDirName + resolver.getJspFileName(this.javaBeginLine, 0); 
                 this.beginLine = resolver.unmangle(this.javaBeginLine, 0); 
                 this.endLine = resolver.unmangle(this.javaEndLine, 0); 
             } else {
                 this.fileName = this.javaFileName;
                 this.beginLine = this.javaBeginLine;
                 this.endLine = this.javaEndLine;
+                
             }
 
             if ("".equals(specificMsg)) {

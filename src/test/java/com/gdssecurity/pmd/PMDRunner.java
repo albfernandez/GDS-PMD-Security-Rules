@@ -1,7 +1,13 @@
 package com.gdssecurity.pmd;
 
+import java.util.Collections;
+import java.util.List;
+
 import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.PMDConfiguration;
+import net.sourceforge.pmd.PmdAnalysis;
+import net.sourceforge.pmd.Report;
+import net.sourceforge.pmd.RuleViolation;
 import net.sourceforge.pmd.cli.PMDCommandLineInterface;
 import net.sourceforge.pmd.cli.PMDParameters;
 
@@ -31,12 +37,27 @@ public final class PMDRunner {
 		return run(directory, RULESET_DEFAULT);
 	}
 
-	public static int run(String[] args) throws Exception {
+	
+	public static List<RuleViolation> getViolations(String directory, String ruleset) throws Exception {
+		List<RuleViolation> violations = getViolations(new String[] { "-d", directory, "-R", ruleset, "-f", "text", "-language", "java" , "-no-cache"});
+		return violations;
+	}
+	
+	private static List<RuleViolation> getViolations(String[] args) {
 		final PMDParameters params = PMDCommandLineInterface.extractParameters(new PMDParameters(), args, "pmd");
 		final PMDConfiguration configuration = params.toConfiguration();
+		try (PmdAnalysis pmd = PmdAnalysis.create(configuration)) {
+			if (pmd.getRulesets().isEmpty()) {
+				return Collections.emptyList();
+			}
+            Report report = pmd.performAnalysisAndCollectReport();
+            return report.getViolations();			
+		}
+	}
 
+	private static int run(String[] args) throws Exception {
 		try {
-			int violations = PMD.doPMD(configuration);
+			int violations = getViolations(args).size();
 			return violations;
 		} catch (Exception e) {
 			throw e;
