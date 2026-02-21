@@ -68,7 +68,18 @@ public class BaseSecurityRule extends AbstractJavaRule {
     			"javax.servlet.http.HttpServletRequest.getParameterValues",
     			"javax.servlet.http.HttpServletRequest.getHeader",
     			"javax.servlet.http.HttpServletRequest.getHeaders",
-    			"javax.servlet.http.HttpServletRequest.getHeaderNames"
+    			"javax.servlet.http.HttpServletRequest.getHeaderNames",
+    			"jakarta.servlet.ServletRequest.getParameter",
+    			"jakarta.servlet.ServletRequest.getParameterMap",
+    			"jakarta.servlet.ServletRequest.getParameterNames",
+    			"jakarta.servlet.ServletRequest.getParameterValues",
+    			"jakarta.servlet.http.HttpServletRequest.getParameter",
+    			"jakarta.servlet.http.HttpServletRequest.getParameterMap",
+    			"jakarta.servlet.http.HttpServletRequest.getParameterNames",
+    			"jakarta.servlet.http.HttpServletRequest.getParameterValues",
+    			"jakarta.servlet.http.HttpServletRequest.getHeader",
+    			"jakarta.servlet.http.HttpServletRequest.getHeaders",
+    			"jakarta.servlet.http.HttpServletRequest.getHeaderNames"
     		)
     		.build();
     
@@ -78,7 +89,9 @@ public class BaseSecurityRule extends AbstractJavaRule {
     		.desc("sources (classes) of posibble dangerous data")
     		.defaultValues(
     			"javax.servlet.ServletRequest",
-    			"javax.servlet.http.HttpServletRequest"
+    			"javax.servlet.http.HttpServletRequest",
+    			"jakarta.servlet.ServletRequest",
+    			"jakarta.servlet.http.HttpServletRequest"
     		)
     		.build();
     
