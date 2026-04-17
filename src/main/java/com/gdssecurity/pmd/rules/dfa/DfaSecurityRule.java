@@ -1042,6 +1042,12 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 			ASTPrimaryExpression primaryExpression = node.getFirstChildOfType(ASTPrimaryExpression.class);
 			if (primaryExpression != null) {
 				ASTName astName = primaryExpression.getFirstChildOfType(ASTName.class);
+				if (astName == null) {
+					ASTPrimaryPrefix primaryPrefix = primaryExpression.getFirstChildOfType(ASTPrimaryPrefix.class);
+					if (primaryPrefix != null) {
+						astName = primaryPrefix.getFirstChildOfType(ASTName.class);
+					}
+				}
 				if (astName != null) {
 					type = astName.getType();
 				}
