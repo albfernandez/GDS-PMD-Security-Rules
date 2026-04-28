@@ -2,7 +2,7 @@ package resources.annotations.constructor;
 
 import com.gdssecurity.pmd.annotations.HTMLSink;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 public class AnnotationExampleSinkConstructor2 {
 	
