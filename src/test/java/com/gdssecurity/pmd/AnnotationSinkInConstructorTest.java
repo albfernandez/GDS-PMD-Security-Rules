@@ -14,5 +14,10 @@ public class AnnotationSinkInConstructorTest {
 	public void testAnnotationSinkInConstructor() throws Exception {
 		Assertions.assertEquals(0, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor1.java", PMDRunner.RULESET_XSS_ANNOTATIONS));	
 	}
+	
+	@Test
+	public void testAnnotationSinkInConstructorForRequestShouldNotTriggerViolation() throws Exception {
+		Assertions.assertEquals(1, PMDRunner.run("src/test/java/resources/annotations/constructor/AnnotationExampleSinkConstructor2.java", PMDRunner.RULESET_XSS_ANNOTATIONS));	
+	}
 
 }

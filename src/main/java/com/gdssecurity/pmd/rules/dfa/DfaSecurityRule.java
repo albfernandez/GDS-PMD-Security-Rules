@@ -158,6 +158,8 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	private boolean initialized = false;
 	
 	private HashMap<Class<?>, ClassInfo> cacheType = new HashMap<>();
+	
+	private boolean sinkProcessing = false;
 
 	public DfaSecurityRule() {
 		super();
@@ -658,8 +660,14 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 	}
 
 	private void analyzeSinkMethodArgs(Node simpleNode) {
-		if (isAnyArgumentTainted(simpleNode)) {
-			addSecurityViolation(this, this.rc, simpleNode, getMessage(), "");
+		try {
+			this.sinkProcessing = true;
+			if (isAnyArgumentTainted(simpleNode)) {
+				addSecurityViolation(this, this.rc, simpleNode, getMessage(), "");
+			}
+		}
+		finally {
+			this.sinkProcessing = false;
 		}
 
 	}
@@ -1172,7 +1180,14 @@ public class DfaSecurityRule extends BaseSecurityRule implements Executable {
 		for (ASTName name : listOfAstNames) {
 			String var = getVarName(name);
 
-			if (isTaintedVariable(var) || isSource(getType(name), var) || isSource(getType(name))) {
+			if (isTaintedVariable(var)) {
+				return true;
+			}
+			if (isSource(getType(name), var)) {
+				return true;
+			}
+			
+			if (!this.sinkProcessing && isSource(getType(name))) {
 				return true;
 			}
 		}
